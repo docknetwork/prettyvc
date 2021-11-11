@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  min-height: calc(100vh - 50px);
+  align-items: stretch;
+}
+
+.footer {
+  height: 100px;
+  background: #18181b;
+  color: #ffffff;
+}
+
+.logo {
+  width: 95px;
+  margin-right: 16px;
+}
+
+.controls {
+  height: 60px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.columnWrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  width: 100%;
+  max-width: 800px;
+}
+
+.main > div {
+  height: 100%;
+}
+
+.renderer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 32px;
+  padding: 20px;
+}
+
+.selectWrapper {
+  width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  position: relative;
+  height: 40px;
+}
+
+.selectWrapper select,
+.selectWrapper::after {
+  grid-area: select;
+}
+
+.selectWrapper:not(.select--multiple)::after {
+  content: "";
+  justify-self: end;
+  width: 0.8em;
+  height: 0.5em;
+  background-color: #ccc;
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}

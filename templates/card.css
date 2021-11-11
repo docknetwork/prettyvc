@@ -1,0 +1,94 @@
+.prettyVC-card {
+  width: 21.5em;
+  height: 12em;
+  background: #ffffff;
+  border-radius: 0.750018750469em;
+  padding: 1em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  color: #18181B;
+  overflow: hidden;
+}
+
+.prettyVC-card-Title {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1em;
+  line-height: 1.2em;
+  color: inherit;
+  flex: none;
+  flex-grow: 0;
+  margin: 0.25em 0;
+}
+
+.prettyVC-card-Issuer {
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.750018750469em;
+  line-height: 1em;
+  color: #27272A;
+  display: flex;
+  align-items: center;
+  flex: none;
+  flex-grow: 0;
+  margin: 0 0.125em;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.prettyVC-card-Issuer > svg {
+  margin-right: 0.25em;
+  flex-shrink: 0;
+}
+
+.prettyVC-card-Footer {
+  margin-top: auto;
+  display: flex;
+}
+
+.prettyVC-card-FooterSubject {
+  margin-right: auto;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.750018750469em;
+  line-height: 1.2em;
+  color: #71717A;
+  margin-top: auto;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 1em;
+}
+
+.prettyVC-card-FooterSubject > strong {
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: bold;
+  color: #27272A;
+}
+
+.prettyVC-card-Logo {
+  width: 3em;
+  height: 3em;
+  background: #FFFFFF;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.prettyVC-card-Logo > img {
+  max-width: 100%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
