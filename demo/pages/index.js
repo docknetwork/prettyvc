@@ -1,6 +1,5 @@
 import { useState } from 'react';;
 import Head from 'next/head';
-import Image from 'next/image';
 import Slider, { SliderTooltip } from 'rc-slider';
 import styles from '../styles/Home.module.css';
 
@@ -18,6 +17,8 @@ import covidTest3 from '../vc-examples/docs/covid-19/v1/verifiable-credential.js
 import prcCredential from '../vc-examples/docs/prc/danube/prc.json';
 
 import TemplateCard from '@docknetwork/prettyvc/templates/card';
+// import TemplateDiploma from '@docknetwork/prettyvc/templates/diploma';
+import TemplateDiploma from '../../templates/diploma';
 
 import Identicon from 'identicon.js';
 import jsSHA from 'jssha';
@@ -35,13 +36,12 @@ const vcExamples = [
   covidTest3,
 ];
 
-const vcTemplates = [{
-  name: 'Card',
-  method: TemplateCard,
-}, {
-  name: 'Diploma',
-  method: TemplateCard,
-}];
+const vcTemplates = {
+  card: TemplateCard,
+  diploma: TemplateDiploma,
+};
+
+const templateKeys = Object.keys(vcTemplates);
 
 const JsonEditor = dynamic(() => import('../components/editor'), {
   ssr: false,
@@ -96,12 +96,20 @@ function getObjectName(object, getVal) {
   return name || object.id || object.recipient;
 }
 
-function getIssuerName({ issuer }) {
+function mapDIDIfKnown(string, didMap) {
+  if (didMap && string.substr(0, 4) === 'did:') {
+    return didMap[string] || string;
+  }
+
+  return string;
+}
+
+function getIssuerName({ issuer }, didMap) {
   if (typeof issuer === 'string') {
     return issuer;
   }
 
-  return getObjectName(issuer, s => s.name);
+  return mapDIDIfKnown(getObjectName(issuer, s => s.name), didMap);
 }
 
 function getLikelyImage(s) {
@@ -148,24 +156,54 @@ function extractNameFields(s) {
   }
 }
 
-function getSubjectName({ credentialSubject }) {
+function getSubjectName({ credentialSubject }, didMap) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map(s => getObjectName(s, extractNameFields)).join(' & ');
+  return subjects.map(s => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
 }
 
-function getVCData(credential) {
+function getSubjectDocuments({ credentialSubject }, didMap) {
+  const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
+  return subjects.map(s => {
+    const docs = [];
+    Object.keys(s).forEach(k => {
+      if (typeof s[k] === 'object') {
+        docs.push(s[k]);
+      }
+    });
+    return docs;
+  });
+}
+
+const typeToTemplateMap = {
+  UniversityDegreeCredential: 'diploma',
+};
+
+function guessCredentialTemplate({ type }) {
+  const lastType = type[type.length - 1];
+  if (lastType && lastType.substr(lastType.length - 4) === 'Card') {
+    return 'card';
+  }
+  return typeToTemplateMap[lastType] || 'diploma';
+}
+
+// TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
+function getVCData(credential, options = {}) {
   if (!credential) {
     return {};
   }
 
   const title = getTitle(credential);
-  const subjectName = getSubjectName(credential);
-  const issuerName = getIssuerName(credential);
+  const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
+  const subjectName = getSubjectName(credential, options.didMap);
+  const issuerName = getIssuerName(credential, options.didMap);
   const image = getCredentialImage(credential);
   const issuanceDate = new Date(credential.issuanceDate);
   const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
-  return { title, subjectName, issuerName, date, image };
+
+  const template = options.template || guessCredentialTemplate(credential);
+
+  return { title, subjectName, issuerName, date, image, documents, template };
 }
 
 const { Handle } = Slider;
@@ -185,11 +223,20 @@ const handle = props => {
   );
 };
 
+// We can supply a mapping of known DID human readable names
+const didMap = {
+  'did:web:vc.transmute.world': 'Prestigous University',
+};
+
 export default function Home() {
   const [json, setJSON] = useState(vcExamples[0]);
   const [exampleIndex, setExampleIndex] = useState(0);
   const [renderSize, setRenderSize] = useState(32);
-  const vcData = getVCData(json);
+  const [selectedTemplate, setTemplate] = useState();
+  const vcData = getVCData(json, {
+    template: selectedTemplate,
+    didMap,
+  });
 
   function handleSelectExample(e) {
     const idx = parseInt(e.target.value, 10);
@@ -198,8 +245,7 @@ export default function Home() {
   }
 
   function handleSelectTemplate(e) {
-    const idx = parseInt(e.target.value, 10);
-
+    setTemplate(e.target.value);
   }
 
   return (
@@ -220,13 +266,13 @@ export default function Home() {
         </div>
 
         <div className={styles.selectWrapper} style={{ marginRight: '16px' }}>
-          <select value={0} onChange={handleSelectTemplate}>
-            <option value="" disabled>
-              Select a template
+          <select value={selectedTemplate} onChange={handleSelectTemplate}>
+            <option value="">
+              Auto-template
             </option>
-            {vcTemplates.map((template, index) => (
-              <option value={index} key={index}>
-                {template.name}
+            {templateKeys.map((template, index) => (
+              <option value={template} key={index}>
+                {template}
               </option>
             ))}
           </select>
@@ -262,7 +308,7 @@ export default function Home() {
         <main
           className={styles.renderer}
           style={{ fontSize: renderSize }}
-          dangerouslySetInnerHTML={{ __html: TemplateCard(vcData) }}>
+          dangerouslySetInnerHTML={{ __html: vcTemplates[vcData.template](vcData) }}>
         </main>
       </div>
 

@@ -32,10 +32,15 @@ select {
   cursor: inherit;
   line-height: inherit;
   outline: none;
+  text-transform: capitalize;
 }
 
 select::-ms-expand {
   display: none;
+}
+
+option {
+  text-transform: capitalize;
 }
 
 button {
