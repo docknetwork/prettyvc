@@ -1,4 +1,4 @@
-name: Deploy
+name: Demo Deploy
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: '16.x'
 
-    - name: Install and lint
+    - name: Install deps
       run: |
         cd demo && yarn install --frozen-lockfile --ignore-scripts
 
@@ -31,4 +31,4 @@ jobs:
       with:
         SSH: true
         BRANCH: gh-pages # The branch the action should deploy to.
-        FOLDER: out # The folder the action should deploy.
+        FOLDER: demo/out # The folder the action should deploy.
