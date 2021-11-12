@@ -10,19 +10,16 @@
   },
   "dependencies": {
     "@docknetwork/prettyvc": "file:../",
-    "download": "^8.0.0",
     "html-to-image": "^1.9.0",
-    "identicon.js": "^2.3.3",
     "jsoneditor": "^9.0.0",
-    "jssha": "^3.2.0",
     "next": "12.0.3",
-    "qrcode": "^1.4.4",
     "rc-slider": "^9.7.4",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-next": "12.0.3"
   }
 }

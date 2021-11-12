@@ -4,15 +4,14 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { toPng } from 'html-to-image';
 
+// Styles for this page
 import styles from '../styles/index.module.css';
 
+// Import example JSONs and template list
 import vcExamples from '../components/vc-examples';
-
-// import TemplateCard from '@docknetwork/prettyvc/templates/card';
-// import TemplateDiploma from '@docknetwork/prettyvc/templates/diploma';
-import TemplateCard from '../../templates/card';
-import TemplateDiploma from '../../templates/diploma';
 import vcTemplates from '../../templates/index';
+
+// Using getVCData instead of getVCHTML here so that we can override the template
 import { getVCData, getTitle } from '../../index';
 
 // We can supply a mapping of known DID human readable names
@@ -20,16 +19,17 @@ const didMap = {
   'did:web:vc.transmute.world': 'Prestigous University',
 };
 
-const templateKeys = Object.keys(vcTemplates);
-
+// Dynamically import json-editor component so SSR doesnt fail due to it
 const JsonEditor = dynamic(() => import('../components/editor'), {
   ssr: false,
 });
 
+// React slider handle and tooltip
 const { Handle } = Slider;
-
-const handle = props => {
-  const { value, dragging, index, ...restProps } = props;
+const handle = (props) => {
+  const {
+    value, dragging, index, ...restProps
+  } = props;
   return (
     <SliderTooltip
       prefixCls="rc-slider-tooltip"
@@ -50,6 +50,7 @@ export default function Home() {
   const [selectedTemplate, setTemplate] = useState();
   const [vcData, setVCData] = useState({});
   const vcHTML = vcData.template && vcTemplates[vcData.template](vcData);
+  const templateKeys = Object.keys(vcTemplates);
 
   async function onUpdateJSON() {
     const data = await getVCData(json, {
@@ -57,7 +58,7 @@ export default function Home() {
       generateQR: true,
       didMap,
     });
-    console.log('data', data)
+    console.log('data', data);
     setVCData(data);
   }
 
@@ -86,10 +87,10 @@ export default function Home() {
       backgroundColor,
       fontEmbedCSS: {},
       style: {
-        fontSize: fontSize + 'px',
+        fontSize: `${fontSize}px`,
         backgroundColor,
       },
-    })
+    });
 
     const link = document.createElement('a');
     link.href = dataUrl;
@@ -171,7 +172,9 @@ export default function Home() {
           style={{ fontSize: renderSize }}>
           <div
             id="vc-render"
-            style={{maxWidth: '38.75em', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+            style={{
+              maxWidth: '38.75em', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
+            }}
             dangerouslySetInnerHTML={{ __html: vcHTML }}>
           </div>
         </main>
@@ -190,5 +193,5 @@ export default function Home() {
           </a>
       </footer>
     </div>
-  )
+  );
 }

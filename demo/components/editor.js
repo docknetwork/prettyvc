@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import JSONEditor from 'jsoneditor';
 
 export default class JSONEditorDemo extends Component {
@@ -26,7 +26,9 @@ export default class JSONEditorDemo extends Component {
 
   render() {
     return (
-        <div className="jsoneditor-react-container" ref={elem => this.container = elem} />
+      <div className="jsoneditor-react-container" ref={(elem) => {
+        this.container = elem;
+      }} />
     );
   }
 }
