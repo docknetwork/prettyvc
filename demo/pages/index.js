@@ -257,23 +257,21 @@ export default function Home() {
 
   function handleJSONChange(v) {
     setJSON(v);
-    onUpdateJSON();
   }
 
   function handleSelectExample(e) {
     const idx = parseInt(e.target.value, 10);
     setExampleIndex(idx);
-    handleJSONChange(vcExamples[idx]);
+    setJSON(vcExamples[idx]);
   }
 
   function handleSelectTemplate(e) {
     setTemplate(e.target.value);
-    onUpdateJSON();
   }
 
   useEffect(() => {
     onUpdateJSON();
-  }, [json]);
+  }, [json, selectedTemplate]);
 
   return (
     <div className={styles.columnWrapper}>
