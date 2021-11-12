@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-.prettyVC-card-Title {
+.prettyVC-card-title {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
@@ -23,7 +23,7 @@
   margin: 0.25em 0;
 }
 
-.prettyVC-card-Issuer {
+.prettyVC-card-issuer {
   font-family: Nunito Sans;
   font-style: normal;
   font-weight: normal;
@@ -41,7 +41,7 @@
   white-space: nowrap;
 }
 
-.prettyVC-card-Issuer > svg {
+.prettyVC-card-issuer > svg {
   margin-right: 0.25em;
   flex-shrink: 0;
 }
@@ -74,7 +74,7 @@
   color: #27272A;
 }
 
-.prettyVC-card-Logo {
+.prettyVC-card-logo {
   width: 3em;
   height: 3em;
   background: #FFFFFF;
@@ -87,7 +87,7 @@
   margin-left: auto;
 }
 
-.prettyVC-card-Logo > img {
+.prettyVC-card-logo > img {
   max-width: 100%;
   margin-left: auto;
   flex-shrink: 0;
