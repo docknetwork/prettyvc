@@ -1,4 +1,4 @@
-import { useState } from 'react';;
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Slider, { SliderTooltip } from 'rc-slider';
 import styles from '../styles/Home.module.css';
@@ -186,8 +186,20 @@ function guessCredentialTemplate({ type }) {
   return typeToTemplateMap[lastType] || 'diploma';
 }
 
+import QRCode from 'qrcode';
+
+async function generateQRImage(credential) {
+  const qrUrl = credential.id;
+  try {
+    const url = await QRCode.toDataURL(qrUrl);
+    console.log('url', url)
+  } catch (e) {
+
+  }
+}
+
 // TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
-function getVCData(credential, options = {}) {
+async function getVCData(credential, options = {}) {
   if (!credential) {
     return {};
   }
@@ -233,20 +245,35 @@ export default function Home() {
   const [exampleIndex, setExampleIndex] = useState(0);
   const [renderSize, setRenderSize] = useState(32);
   const [selectedTemplate, setTemplate] = useState();
-  const vcData = getVCData(json, {
-    template: selectedTemplate,
-    didMap,
-  });
+  const [vcData, setVCData] = useState({});
+
+  async function onUpdateJSON() {
+    const data = await getVCData(json, {
+      template: selectedTemplate,
+      didMap,
+    });
+    setVCData(data);
+  }
+
+  function handleJSONChange(v) {
+    setJSON(v);
+    onUpdateJSON();
+  }
 
   function handleSelectExample(e) {
     const idx = parseInt(e.target.value, 10);
     setExampleIndex(idx);
-    setJSON(vcExamples[idx]);
+    handleJSONChange(vcExamples[idx]);
   }
 
   function handleSelectTemplate(e) {
     setTemplate(e.target.value);
+    onUpdateJSON();
   }
+
+  useEffect(() => {
+    onUpdateJSON();
+  }, [json]);
 
   return (
     <div className={styles.columnWrapper}>
@@ -299,16 +326,15 @@ export default function Home() {
 
         <main className={styles.main}>
           <JsonEditor
-            allowedModes={['tree', 'code']}
             value={json}
-            onChange={setJSON}
+            onChange={handleJSONChange}
           />
         </main>
 
         <main
           className={styles.renderer}
           style={{ fontSize: renderSize }}
-          dangerouslySetInnerHTML={{ __html: vcTemplates[vcData.template](vcData) }}>
+          dangerouslySetInnerHTML={{ __html: vcData.template && vcTemplates[vcData.template](vcData) }}>
         </main>
       </div>
 
