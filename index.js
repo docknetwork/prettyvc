@@ -4,6 +4,11 @@ import jsSHA from 'jssha';
 
 import templates from './templates';
 
+// TODO: allow user to supply options for this too
+const typeToTemplateMap = {
+  UniversityDegreeCredential: 'diploma',
+};
+
 export function getTitle({ type, name }, cutTitle = true) {
   let title = name;
 
@@ -131,10 +136,6 @@ function getSubjectDocuments({ credentialSubject }, didMap) {
     return docs;
   });
 }
-
-const typeToTemplateMap = {
-  UniversityDegreeCredential: 'diploma',
-};
 
 function guessCredentialTemplate({ type }) {
   const lastType = type[type.length - 1];
