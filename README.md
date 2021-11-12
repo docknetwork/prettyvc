@@ -14,3 +14,4 @@ Please feel free to submit example credential JSON and templates, the more we ha
 ## Todo
 - Add tests going through each credential and ensure it outputs the correct fields we'd expect to see as a human
 - Demo script for creating PDF credentials
+- Report template that renders tables (see CMTR example)

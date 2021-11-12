@@ -1,14 +1,19 @@
 {
-  "name": "prettyvc",
-  "type": "module",
+  "name": "@docknetwork/prettyvc",
+  "description": "Render pretty verifiable credentials",
   "version": "1.0.0",
-  "description": "",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/docknetwork/prettyvc"
+  },
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sam Hellawell",
   "dependencies": {
     "identicon.js": "^2.3.3",
     "jssha": "^3.2.0",
