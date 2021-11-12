@@ -9,13 +9,14 @@ Please feel free to submit example credential JSON and templates, the more we ha
 - Works well with html-pdf and html-to-image
 - Easily customizable CSS
 - Multiple templates and template deduction
-- Generates QR codes
+- Generates identicon images if none can be found
+- Generates QR codes of the credential ID URI
 
 ## Usage
 
 Install through your favorite package manager:
 
-`yarn add @docknetwork/prettyvc` or `npm install @docknetwork/prettyvc`.
+`yarn add @docknetwork/prettyvc` or `npm install @docknetwork/prettyvc`
 
 Once installed, basic usage is simple:
 ```
