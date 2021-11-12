@@ -5,9 +5,18 @@
 }
 
 .footer {
-  height: 100px;
+  padding: 20px;
   background: #18181b;
+  text-align: center;
+  color: rgb(255, 255, 255, 0.75);
+}
+
+.footer a {
   color: #ffffff;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }
 
 .logo {

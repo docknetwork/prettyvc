@@ -21,9 +21,9 @@ export default function TemplateDiploma({ title, issuerName, subjectName, expiry
   }
 
   return `
-    <div class="prettyVC-diploma">
+    <div class="prettyVC prettyVC-diploma">
       <img src="${sanitize(images.issuerImage || image)}" class="prettyVC-diploma-headerimage" />
-      <h2 class="prettyVC-diploma-title">
+      <h2 class="prettyVC-title prettyVC-diploma-title">
         ${sanitize(issuerName)}
       </h2>
       <p class="prettyVC-diploma-subtext">

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@docknetwork/prettyvc": "file:../",
+    "download": "^8.0.0",
+    "html-to-image": "^1.9.0",
     "identicon.js": "^2.3.3",
     "jsoneditor": "^9.0.0",
     "jssha": "^3.2.0",

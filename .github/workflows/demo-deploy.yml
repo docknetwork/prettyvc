@@ -20,7 +20,7 @@ jobs:
 
     - name: Install deps
       run: |
-        cd demo && yarn install --frozen-lockfile --ignore-scripts
+        yarn install --frozen-lockfile --ignore-scripts && cd demo && yarn install --frozen-lockfile --ignore-scripts
 
     - name: Build and export
       run: |

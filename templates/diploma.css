@@ -1,5 +1,5 @@
 .prettyVC-diploma {
-  max-width: 40em;
+  max-width: 38.75em;
   width: 100%;
   min-height: 12em;
   background: #ffffff;
@@ -12,7 +12,6 @@
   overflow: hidden;
   font-size: inherit;
   text-align: center;
-  font-family: Nunito Sans;
 }
 
 .prettyVC-diploma-subtext {
@@ -34,7 +33,6 @@
 
 .prettyVC-diploma-footersubject {
   margin-right: auto;
-  font-family: Nunito Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 0.8em;
@@ -49,14 +47,12 @@
 }
 
 .prettyVC-diploma-footersubject > strong {
-  font-family: Nunito Sans;
   font-style: normal;
   font-weight: bold;
   color: #27272A;
 }
 
 .prettyVC-diploma-title {
-  font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
   font-size: 2.5em;

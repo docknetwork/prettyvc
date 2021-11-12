@@ -65,3 +65,11 @@ button {
     display: none;
   }
 }
+
+.prettyVC-title {
+  font-family: Montserrat;
+}
+
+.prettyVC {
+  font-family: Nunito Sans;
+}

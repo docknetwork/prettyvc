@@ -9,6 +9,7 @@ Please feel free to submit example credential JSON and templates, the more we ha
 - Works well with html-pdf and html-to-image
 - Easily customizable CSS
 - Multiple templates and template deduction
+- Generates QR codes
 
 ## Todo
 - Add tests going through each credential and ensure it outputs the correct fields we'd expect to see as a human
