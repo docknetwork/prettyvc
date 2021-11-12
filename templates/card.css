@@ -46,12 +46,12 @@
   flex-shrink: 0;
 }
 
-.prettyVC-card-Footer {
+.prettyVC-card-footer {
   margin-top: auto;
   display: flex;
 }
 
-.prettyVC-card-FooterSubject {
+.prettyVC-card-footersubject {
   margin-right: auto;
   font-family: Nunito Sans;
   font-style: normal;
@@ -67,7 +67,7 @@
   margin-right: 1em;
 }
 
-.prettyVC-card-FooterSubject > strong {
+.prettyVC-card-footersubject > strong {
   font-family: Nunito Sans;
   font-style: normal;
   font-weight: bold;

@@ -38,6 +38,29 @@
   max-width: 800px;
 }
 
+.selectControls {
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .controls {
+    height: auto;
+  }
+
+  .slider {
+    display: none;
+  }
+
+  .main {
+    display: none;
+  }
+
+  .selectControls {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .main > div {
   height: 100%;
 }

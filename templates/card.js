@@ -12,13 +12,13 @@ export default function TemplateCard({ title, issuerName, subjectName, date, ima
         </svg>
         ${sanitize(issuerName)}
       </div>
-      <div class="prettyVC-card-Footer">
-        <div class="prettyVC-card-FooterSubject">
+      <div class="prettyVC-card-footer">
+        <div class="prettyVC-card-footersubject">
           <strong>${sanitize(subjectName)}</strong><br />
           ${sanitize(date)}
         </div>
         ${image ? `
-          <div class="prettyVC-card-Logo">
+          <div class="prettyVC-card-logo">
             <img src="${sanitize(image)}" />
           </div>
         ` : ''}

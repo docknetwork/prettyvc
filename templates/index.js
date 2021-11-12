@@ -1,5 +1,7 @@
 import TemplateCard from './card';
+import TemplateDiploma from './diploma';
 
-export {
-  TemplateCard,
+export default {
+  card: TemplateCard,
+  diploma: TemplateDiploma,
 };

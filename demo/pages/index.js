@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Slider, { SliderTooltip } from 'rc-slider';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/index.module.css';
 
 import dynamic from 'next/dynamic';
 
@@ -16,12 +16,17 @@ import covidTest2 from '../vc-examples/docs/covid-19/v2/qSARS-CoV-2-Travel-Badge
 import covidTest3 from '../vc-examples/docs/covid-19/v1/verifiable-credential.json';
 import prcCredential from '../vc-examples/docs/prc/danube/prc.json';
 
-import TemplateCard from '@docknetwork/prettyvc/templates/card';
+// import TemplateCard from '@docknetwork/prettyvc/templates/card';
 // import TemplateDiploma from '@docknetwork/prettyvc/templates/diploma';
+import TemplateCard from '../../templates/card';
 import TemplateDiploma from '../../templates/diploma';
+import vcTemplates from '../../templates/index';
+import { getVCData, getTitle } from '../../index';
 
-import Identicon from 'identicon.js';
-import jsSHA from 'jssha';
+// We can supply a mapping of known DID human readable names
+const didMap = {
+  'did:web:vc.transmute.world': 'Prestigous University',
+};
 
 const vcExamples = [
   uniDegree,
@@ -36,187 +41,11 @@ const vcExamples = [
   covidTest3,
 ];
 
-const vcTemplates = {
-  card: TemplateCard,
-  diploma: TemplateDiploma,
-};
-
 const templateKeys = Object.keys(vcTemplates);
 
 const JsonEditor = dynamic(() => import('../components/editor'), {
   ssr: false,
 });
-
-function getTitle({ type, name }, cutTitle = true) {
-  let title = name;
-
-  // Get title from type of credential
-  if (!title && type && type.length) {
-    for (let i = 0; i < type.length; i++) {
-      let t = type[i];
-      if (t !== 'VerifiableCredential') {
-        if (t.indexOf('-') === -1) {
-          title = t.replace(/([A-Z])/g, ' $1').trim();
-        } else {
-          title = t.replace(/\-/g, ' ').trim();
-        }
-        break;
-      }
-    }
-  }
-
-  if (cutTitle && title.length >= 30 && title.endsWith(' Credential')) {
-    return title.substr(0, title.length - 11)
-  }
-
-  return title;
-}
-
-function doDeepSearch(object, getVal) {
-  const rootVal = getVal(object);
-  if (rootVal) {
-    return rootVal;
-  }
-
-  const keys = Object.keys(object);
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    const v = object[key];
-    if (typeof v === 'object') {
-      const val = doDeepSearch(v, getVal);
-      if (val) {
-        return val;
-      }
-    }
-  }
-}
-
-function getObjectName(object, getVal) {
-  const name = doDeepSearch(object, getVal);
-  return name || object.id || object.recipient;
-}
-
-function mapDIDIfKnown(string, didMap) {
-  if (didMap && string.substr(0, 4) === 'did:') {
-    return didMap[string] || string;
-  }
-
-  return string;
-}
-
-function getIssuerName({ issuer }, didMap) {
-  if (typeof issuer === 'string') {
-    return issuer;
-  }
-
-  return mapDIDIfKnown(getObjectName(issuer, s => s.name), didMap);
-}
-
-function getLikelyImage(s) {
-  const possibleImageKey = Object.keys(s).filter(s => (s.toLowerCase().indexOf('image') > -1 || s.toLowerCase().indexOf('brandmark') > -1))[0];
-  return s.image || s.logo || (possibleImageKey && s[possibleImageKey]);
-}
-
-function getIssuerHash(issuer) {
-  const ll = issuer.split(':');
-  return ll[ll.length - 1];
-}
-
-function hashStr(str) {
-  const sha = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' });
-  sha.update(str);
-  return sha.getHash('HEX');
-}
-
-function getCredentialImage({ issuer, credentialSubject }) {
-  const issuerImage = doDeepSearch(issuer, getLikelyImage);
-  const subjectImage = doDeepSearch(credentialSubject, getLikelyImage);
-  return issuerImage || subjectImage || (`data:image/png;base64,` + new Identicon(hashStr(issuer.id || issuer), 128).toString());
-}
-
-function extractHumanNameFields(s) {
-  return s.name ||
-    (s.givenName ? (s.familyName ? `${s.givenName} ${s.familyName}` : s.givenName) : '') ||
-    s.assay ||
-    s.status ||
-    s.currentStatus;
-}
-
-function extractNameFields(s) {
-  // Try to extract based on most often used human readable fields for names
-  const humanNames = extractHumanNameFields(s);
-  if (humanNames) {
-    return humanNames;
-  }
-
-  // Cant find by direct properties, so lets see if this has any name-like properties
-  const possibleNameKey = Object.keys(s).filter(s => s.toLowerCase().indexOf('name') > -1)[0];
-  if (possibleNameKey) {
-    return s[possibleNameKey];
-  }
-}
-
-function getSubjectName({ credentialSubject }, didMap) {
-  const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map(s => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
-}
-
-function getSubjectDocuments({ credentialSubject }, didMap) {
-  const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map(s => {
-    const docs = [];
-    Object.keys(s).forEach(k => {
-      if (typeof s[k] === 'object') {
-        docs.push(s[k]);
-      }
-    });
-    return docs;
-  });
-}
-
-const typeToTemplateMap = {
-  UniversityDegreeCredential: 'diploma',
-};
-
-function guessCredentialTemplate({ type }) {
-  const lastType = type[type.length - 1];
-  if (lastType && lastType.substr(lastType.length - 4) === 'Card') {
-    return 'card';
-  }
-  return typeToTemplateMap[lastType] || 'diploma';
-}
-
-import QRCode from 'qrcode';
-
-async function generateQRImage(credential) {
-  const qrUrl = credential.id;
-  try {
-    const url = await QRCode.toDataURL(qrUrl);
-    console.log('url', url)
-  } catch (e) {
-
-  }
-}
-
-// TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
-async function getVCData(credential, options = {}) {
-  if (!credential) {
-    return {};
-  }
-
-  const title = getTitle(credential);
-  const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
-  const subjectName = getSubjectName(credential, options.didMap);
-  const issuerName = getIssuerName(credential, options.didMap);
-  const image = getCredentialImage(credential);
-  const issuanceDate = new Date(credential.issuanceDate);
-  const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const date = formatter.format(issuanceDate);
-
-  const template = options.template || guessCredentialTemplate(credential);
-
-  return { title, subjectName, issuerName, date, image, documents, template };
-}
 
 const { Handle } = Slider;
 
@@ -235,23 +64,21 @@ const handle = props => {
   );
 };
 
-// We can supply a mapping of known DID human readable names
-const didMap = {
-  'did:web:vc.transmute.world': 'Prestigous University',
-};
-
 export default function Home() {
   const [json, setJSON] = useState(vcExamples[0]);
   const [exampleIndex, setExampleIndex] = useState(0);
-  const [renderSize, setRenderSize] = useState(32);
+  const [renderSize, setRenderSize] = useState(16);
   const [selectedTemplate, setTemplate] = useState();
   const [vcData, setVCData] = useState({});
+  const vcHTML = vcData.template && vcTemplates[vcData.template](vcData);
 
   async function onUpdateJSON() {
     const data = await getVCData(json, {
       template: selectedTemplate,
+      generateQR: true,
       didMap,
     });
+    console.log('data', data)
     setVCData(data);
   }
 
@@ -277,40 +104,47 @@ export default function Home() {
     <div className={styles.columnWrapper}>
       <div className={styles.controls}>
         <img className={styles.logo} src="https://uploads-ssl.webflow.com/5e97941735e37a5ef19d10aa/601483e72237f407809dcfbc_dock-logo-footer.png" />
-        <div className={styles.selectWrapper} style={{ marginRight: '16px' }}>
-          <select value={exampleIndex} onChange={handleSelectExample}>
-            <option value="" disabled>
-              Select an example credential
-            </option>
-            {vcExamples.map((example, index) => (
-              <option value={index} key={index}>
-                {getTitle(example)}
+
+        <div className={styles.selectControls}>
+          <div className={styles.selectWrapper} style={{ marginRight: '16px' }}>
+            <select value={exampleIndex} onChange={handleSelectExample}>
+              <option value="" disabled>
+                Select an example credential
               </option>
-            ))}
-          </select>
+              {vcExamples.map((example, index) => (
+                <option value={index} key={index}>
+                  {getTitle(example)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.selectWrapper} style={{ marginRight: '16px' }}>
+            <select value={selectedTemplate} onChange={handleSelectTemplate}>
+              <option value="">
+                Auto-template
+              </option>
+              {templateKeys.map((template, index) => (
+                <option value={template} key={index}>
+                  {template}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className={styles.selectWrapper} style={{ marginRight: '16px' }}>
-          <select value={selectedTemplate} onChange={handleSelectTemplate}>
-            <option value="">
-              Auto-template
-            </option>
-            {templateKeys.map((template, index) => (
-              <option value={template} key={index}>
-                {template}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <Slider min={8} max={64} defaultValue={renderSize} handle={handle} onChange={setRenderSize} style={{ maxWidth: '256px' }} />
+        <Slider
+          min={8}
+          max={64}
+          defaultValue={renderSize}
+          handle={handle}
+          onChange={setRenderSize}
+          style={{ maxWidth: '256px' }}
+          className={styles.slider}
+          />
 
         <button style={{ marginLeft: 'auto' }}>
           Save as PNG
-        </button>
-
-        <button style={{ marginLeft: '10px' }}>
-          Save as PDF
         </button>
       </div>
       <div className={styles.container}>
@@ -332,7 +166,7 @@ export default function Home() {
         <main
           className={styles.renderer}
           style={{ fontSize: renderSize }}
-          dangerouslySetInnerHTML={{ __html: vcData.template && vcTemplates[vcData.template](vcData) }}>
+          dangerouslySetInnerHTML={{ __html: vcHTML }}>
         </main>
       </div>
 

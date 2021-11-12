@@ -1,0 +1,113 @@
+.prettyVC-diploma {
+  max-width: 40em;
+  width: 100%;
+  min-height: 12em;
+  background: #ffffff;
+  border-radius: 0.25em;
+  padding: 2em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  color: #18181B;
+  overflow: hidden;
+  font-size: inherit;
+  text-align: center;
+  font-family: Nunito Sans;
+}
+
+.prettyVC-diploma-subtext {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 1em;
+  color: #27272A;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.prettyVC-diploma-footer {
+  margin-top: auto;
+  display: flex;
+  text-align: left;
+}
+
+.prettyVC-diploma-footersubject {
+  margin-right: auto;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  color: #71717A;
+  margin-top: auto;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 1em;
+}
+
+.prettyVC-diploma-footersubject > strong {
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: bold;
+  color: #27272A;
+}
+
+.prettyVC-diploma-title {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 2.5em;
+  line-height: 1.5em;
+  color: inherit;
+  flex: none;
+  flex-grow: 0;
+  margin: 0.25em 0;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.prettyVC-diploma-subtitle {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5em;
+  line-height: 1.75em;
+  color: inherit;
+  flex: none;
+  flex-grow: 0;
+  margin: 0.25em 0;
+  word-break: break-word;
+}
+
+.prettyVC-diploma-headerimage {
+  margin: 15px auto 30px auto;
+  border-radius: 100%;
+  width: 8em;
+}
+
+.prettyVC-diploma-qrimage {
+  margin: 10px auto 20px auto;
+  width: 8em;
+}
+
+.prettyVC-diploma-logo {
+  width: 3em;
+  height: 3em;
+  background: #FFFFFF;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.prettyVC-diploma-logo > img {
+  max-width: 100%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
