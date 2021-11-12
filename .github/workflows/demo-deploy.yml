@@ -24,7 +24,7 @@ jobs:
 
     - name: Build and export
       run: |
-        cd demo && yarn build && yarn export
+        cd demo && yarn build && yarn export && touch out/.nojekyll
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@releases/v3
