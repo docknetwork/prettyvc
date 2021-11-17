@@ -1,6 +1,8 @@
 import sanitize from '../utils/sanitize';
 
-export default function TemplateCard({ title, issuerName, subjectName, date, image }) {
+export default function TemplateCard({
+  title, issuerName, subjectName, date, image,
+}) {
   return `
     <div class="prettyVC prettyVC-card">
       <h2 class="prettyVC-title prettyVC-card-title">

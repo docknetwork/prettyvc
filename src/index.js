@@ -1,5 +1,5 @@
-import Identicon from 'identicon.js';
-import QRCode from 'qrcode';
+import Identicon from 'identicon.js'; // THINK: should this be a peer dep or user supplied method to generate?
+import QRCode from 'qrcode'; // THINK: should this be a peer dep or user supplied method to generate?
 import jsSHA from 'jssha';
 
 import templates from './templates';
@@ -15,12 +15,12 @@ export function getTitle({ type, name }, cutTitle = true) {
   // Get title from type of credential
   if (!title && type && type.length) {
     for (let i = 0; i < type.length; i++) {
-      let t = type[i];
+      const t = type[i];
       if (t !== 'VerifiableCredential') {
         if (t.indexOf('-') === -1) {
           title = t.replace(/([A-Z])/g, ' $1').trim();
         } else {
-          title = t.replace(/\-/g, ' ').trim();
+          title = t.replace(/-/g, ' ').trim();
         }
         break;
       }
@@ -28,7 +28,7 @@ export function getTitle({ type, name }, cutTitle = true) {
   }
 
   if (title && cutTitle && title.length >= 30 && title.endsWith(' Credential')) {
-    return title.substr(0, title.length - 11)
+    return title.substr(0, title.length - 11);
   }
 
   return title || 'Verifiable Credential';
@@ -51,6 +51,8 @@ function doDeepSearch(object, getVal) {
       }
     }
   }
+
+  return null;
 }
 
 function getObjectName(object, getVal) {
@@ -71,17 +73,12 @@ function getIssuerName({ issuer }, didMap) {
     return issuer;
   }
 
-  return mapDIDIfKnown(getObjectName(issuer, s => s.name), didMap);
+  return mapDIDIfKnown(getObjectName(issuer, (s) => s.name), didMap);
 }
 
 function getLikelyImage(s) {
-  const possibleImageKey = Object.keys(s).filter(s => (s.toLowerCase().indexOf('image') > -1 || s.toLowerCase().indexOf('brandmark') > -1))[0];
+  const possibleImageKey = Object.keys(s).filter((b) => (b.toLowerCase().indexOf('image') > -1 || b.toLowerCase().indexOf('brandmark') > -1))[0];
   return s.image || s.logo || (possibleImageKey && s[possibleImageKey]);
-}
-
-function getIssuerHash(issuer) {
-  const ll = issuer.split(':');
-  return ll[ll.length - 1];
 }
 
 function hashStr(str) {
@@ -91,18 +88,18 @@ function hashStr(str) {
 }
 
 function getCredentialImage({ issuer, credentialSubject }) {
-  const issuerImage = doDeepSearch(issuer, getLikelyImage) || (`data:image/png;base64,` + new Identicon(hashStr(issuer.id || issuer), 128).toString());
+  const issuerImage = doDeepSearch(issuer, getLikelyImage) || (`data:image/png;base64,${new Identicon(hashStr(issuer.id || issuer), 128).toString()}`);
   const subjectImage = doDeepSearch(credentialSubject, getLikelyImage);
   const mainImage = subjectImage || issuerImage;
   return { issuerImage, subjectImage, mainImage };
 }
 
 function extractHumanNameFields(s) {
-  return s.name ||
-    (s.givenName ? (s.familyName ? `${s.givenName} ${s.familyName}` : s.givenName) : '') ||
-    s.assay ||
-    s.status ||
-    s.currentStatus;
+  return s.name
+    || (s.givenName ? (s.familyName ? `${s.givenName} ${s.familyName}` : s.givenName) : '')
+    || s.assay
+    || s.status
+    || s.currentStatus;
 }
 
 function extractNameFields(s) {
@@ -113,22 +110,24 @@ function extractNameFields(s) {
   }
 
   // Cant find by direct properties, so lets see if this has any name-like properties
-  const possibleNameKey = Object.keys(s).filter(s => s.toLowerCase().indexOf('name') > -1)[0];
+  const possibleNameKey = Object.keys(s).filter((b) => b.toLowerCase().indexOf('name') > -1)[0];
   if (possibleNameKey) {
     return s[possibleNameKey];
   }
+
+  return '';
 }
 
 function getSubjectName({ credentialSubject }, didMap) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map(s => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
+  return subjects.map((s) => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
 }
 
-function getSubjectDocuments({ credentialSubject }, didMap) {
+function getSubjectDocuments({ credentialSubject }) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map(s => {
+  return subjects.map((s) => {
     const docs = [];
-    Object.keys(s).forEach(k => {
+    Object.keys(s).forEach((k) => {
       if (typeof s[k] === 'object') {
         docs.push(s[k]);
       }
@@ -147,8 +146,7 @@ function guessCredentialTemplate({ type }) {
 
 async function generateQRImage(credential, userSuppliedUrl) {
   const qrUrl = userSuppliedUrl || credential.id;
-  const url = await QRCode.toDataURL(qrUrl);
-  return url;
+  return await QRCode.toDataURL(qrUrl);
 }
 
 // TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
@@ -174,7 +172,9 @@ export async function getVCData(credential, options = {}) {
 
   const template = options.template || guessCredentialTemplate(credential);
 
-  return { title, subjectName, issuerName, date, image: images.mainImage, images, documents, template, qrImage };
+  return {
+    title, subjectName, issuerName, date, image: images.mainImage, images, documents, template, qrImage,
+  };
 }
 
 export async function getVCHTML(credential, options) {

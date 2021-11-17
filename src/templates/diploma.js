@@ -1,8 +1,10 @@
 import sanitize from '../utils/sanitize';
 
-export default function TemplateDiploma({ title, issuerName, subjectName, expiryDate, date, image, images, qrImage, documents }) {
+export default function TemplateDiploma({
+  title, issuerName, subjectName, expiryDate, date, image, images, qrImage, documents,
+}) {
   const subjectDocuments = (documents && documents[0]) || []; // Only one document/subject per diploma
-  const degreeDocument = subjectDocuments.filter(d => (
+  const degreeDocument = subjectDocuments.filter((d) => (
     typeof d.type === 'string' && d.type.indexOf('Degree') !== -1
   ))[0];
 
