@@ -9,10 +9,10 @@ import styles from '../styles/index.module.css';
 
 // Import example JSONs and template list
 import vcExamples from '../components/vc-examples';
-import vcTemplates from '../../templates/index';
+import vcTemplates from '../../src/templates/index';
 
 // Using getVCData instead of getVCHTML here so that we can override the template
-import { getVCData, getTitle } from '../../index';
+import { getVCData, getTitle } from '../../src/index';
 
 // We can supply a mapping of known DID human readable names
 const didMap = {

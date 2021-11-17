@@ -1,5 +1,6 @@
-demo
+/demo/
 .github
 .gitignore
 .gitmodules
 .git
+/src/
