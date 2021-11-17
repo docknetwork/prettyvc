@@ -29,8 +29,8 @@ const vcHTML = await getVCHTML(credentialJSON, options);
 
 If using a framework like NextJS or webpack, you must either build your own CSS rules or import the templates:
 ```
-import '@docknetwork/prettyvc/templates/card.css';
-import '@docknetwork/prettyvc/templates/diploma.css';
+import '@docknetwork/prettyvc/styles/card.css';
+import '@docknetwork/prettyvc/styles/diploma.css';
 ```
 
 If using NodeJS/SSR and dont wish to serve CSS files, you will need to use a package such as [juice](https://github.com/Automattic/juice) to embed CSS styles into style tags.
