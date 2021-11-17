@@ -1,3 +1,6 @@
 [submodule "demo/vc-examples"]
 	path = demo/vc-examples
 	url = https://github.com/w3c-ccg/vc-examples
+[submodule "demo/vc-examples-ca"]
+	path = demo/vc-examples-ca
+	url = https://github.com/canada-ca/vc-examples-ca.git
