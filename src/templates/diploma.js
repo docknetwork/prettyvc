@@ -40,7 +40,11 @@ export default function TemplateDiploma({ title, issuerName, subjectName, expiry
           ${sanitize(personName)}
         </h3>
       ` : ''}
-      <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage" />
+
+      ${qrImage ? `
+        <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage" />
+      ` : ''}
+      
       <div class="prettyVC-diploma-footer">
         <div class="prettyVC-diploma-footersubject">
           <strong>${sanitize(title)}</strong><br />
