@@ -145,14 +145,10 @@ function guessCredentialTemplate({ type }) {
   return typeToTemplateMap[lastType] || 'diploma';
 }
 
-async function generateQRImage(credential) {
-  const qrUrl = credential.id;
-  try {
-    const url = await QRCode.toDataURL(qrUrl);
-    return url;
-  } catch (e) {
-
-  }
+async function generateQRImage(credential, userSuppliedUrl) {
+  const qrUrl = userSuppliedUrl || credential.id;
+  const url = await QRCode.toDataURL(qrUrl);
+  return url;
 }
 
 // TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
@@ -163,6 +159,7 @@ export async function getVCData(credential, options = {}) {
 
   const {
     generateQR = false,
+    qrUrl = null,
   } = options;
 
   const title = getTitle(credential);
@@ -173,7 +170,7 @@ export async function getVCData(credential, options = {}) {
   const issuanceDate = new Date(credential.issuanceDate);
   const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
-  const qrImage = generateQR && (await generateQRImage(credential));
+  const qrImage = generateQR && (await generateQRImage(credential, qrUrl));
 
   const template = options.template || guessCredentialTemplate(credential);
 
