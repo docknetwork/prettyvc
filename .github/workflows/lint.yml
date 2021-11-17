@@ -1,4 +1,4 @@
-name: Linting and check docs generation
+name: Linting
 on: [push, pull_request]
 jobs:
   lint:
@@ -14,8 +14,7 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name: Install, lint, type check and generate docs # Not uploading the docs.
+      - name: Lint
         run: |
           yarn install --frozen-lockfile --ignore-scripts
           yarn lint
-          yarn docs
