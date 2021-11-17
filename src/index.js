@@ -27,11 +27,11 @@ export function getTitle({ type, name }, cutTitle = true) {
     }
   }
 
-  if (cutTitle && title.length >= 30 && title.endsWith(' Credential')) {
+  if (title && cutTitle && title.length >= 30 && title.endsWith(' Credential')) {
     return title.substr(0, title.length - 11)
   }
 
-  return title;
+  return title || 'Verifiable Credential';
 }
 
 function doDeepSearch(object, getVal) {
