@@ -18,11 +18,10 @@
   font-style: normal;
   font-weight: normal;
   font-size: 1em;
-  line-height: 1em;
+  line-height: 1.25em;
   color: #27272A;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
 }
 
 .prettyVC-diploma-footer {
