@@ -1,0 +1,27 @@
+{
+  "plugins": ["jest", "sonarjs"],
+  "globals": {
+    "process": "readonly"
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["plugin:sonarjs/recommended", "eslint:recommended", "plugin:jest/recommended", "airbnb-base"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "new-cap": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-plusplus": "off",
+    "max-len": "off",
+    "no-console": "off",
+    "no-else-return": "off",
+    "no-return-await": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off"
+  }
+}
