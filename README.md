@@ -53,3 +53,4 @@ console.log('vcData', vcData);
 - Demo script for creating PDF credentials
 - Report template that renders tables (see CMTR example)
 - Document options
+- Add more credentials
