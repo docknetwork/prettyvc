@@ -37,6 +37,12 @@ describe('getVCData - UniversityDegreeCredential', () => {
     expect(vcData.documents[0][0].name).toEqual('Bachelor of Science and Arts');
   });
 
+  test('Has correct images', async () => {
+    expect(vcData.images.issuerImage).toEqual(null);
+    expect(vcData.images.subjectImage).toEqual(null);
+    expect(vcData.images.mainImage).toEqual(null);
+  });
+
   test('Has correct attributes', async () => {
     expect(vcData.attributes.length).toEqual(3);
     expect(vcData.attributes[0].name).toEqual('Id');
