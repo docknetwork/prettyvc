@@ -1,36 +1,14 @@
 import sanitize from '../utils/sanitize';
 
 export default function TemplateCredential({
-  title, issuerName, subjectName, expiryDate, date, image, images, qrImage, documents, attributes,
+  title, issuerName, subjectName, expiryDate, date, image, images, qrImage, attributes,
 }) {
-  console.log('attributes', attributes)
-
-  const subjectDocuments = (documents && documents[0]) || []; // Only one document/subject per diploma
-  const degreeDocument = subjectDocuments.filter((d) => (
-    typeof d.type === 'string' && d.type.indexOf('Degree') !== -1
-  ))[0];
-
-  // Degree name is either in a degree document or taken from subject
-  let degreeName = (degreeDocument && degreeDocument.name) || subjectName;
-
-  // Diploma should be assigned to a person
-  let personName = degreeDocument && subjectName === degreeName ? '' : subjectName;
-
-  if (degreeName === personName && title) {
-    degreeName = title;
-  }
-
-  if (personName === degreeName) {
-    personName = '';
-  }
-
-  const attributesTableRows = attributes.map(attribute => (`
+  const attributesTableRows = attributes.map((attribute) => (`
     <tr>
       <td>${attribute.name}</td>
       <td>${attribute.value}</td>
     </tr>
   `)).join('\n');
-
   return `
     <div class="prettyVC prettyVC-diploma">
       <img src="${sanitize(images.issuerImage || image)}" class="prettyVC-diploma-headerimage" />
@@ -38,12 +16,12 @@ export default function TemplateCredential({
         ${sanitize(issuerName)}
       </h2>
 
-      ${personName ? `
+      ${subjectName ? `
         <p class="prettyVC-diploma-subtext">
           has issued a <strong>${sanitize(title)}</strong> credential to
         </p>
         <h3 class="prettyVC-diploma-subtitle">
-          ${sanitize(personName)}
+          ${sanitize(subjectName)}
         </h3>
       ` : ''}
 

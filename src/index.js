@@ -168,17 +168,15 @@ export function objectToAttributesArray(object, result = [], parentName = '') {
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     const value = object[key];
-    if (!value) {
-      continue;
-    }
-
-    if (typeof value === 'object') {
-      objectToAttributesArray(value, result, key + ' ');
-    } else {
-      result.push({
-        name: humanizeCamelCase(parentName + key),
-        value,
-      });
+    if (value) {
+      if (typeof value === 'object') {
+        objectToAttributesArray(value, result, `${key} `);
+      } else {
+        result.push({
+          name: humanizeCamelCase(parentName + key),
+          value,
+        });
+      }
     }
   }
 
@@ -211,8 +209,16 @@ export async function getVCData(credential, options = {}) {
   const attributes = objectToAttributesArray(credential.credentialSubject);
 
   return {
-    title, subjectName, issuerName, date, image: images.mainImage,
-    images, documents, template, qrImage, attributes,
+    title,
+    subjectName,
+    issuerName,
+    date,
+    image: images.mainImage,
+    images,
+    documents,
+    template,
+    qrImage,
+    attributes,
   };
 }
 
