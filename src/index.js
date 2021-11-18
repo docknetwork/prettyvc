@@ -99,8 +99,8 @@ function hashStr(str) {
 }
 
 function getCredentialImage({ issuer, credentialSubject }, generateImages) {
-  const issuerImage = doDeepSearch(issuer, getLikelyImage) ||
-    (generateImages && (`data:image/png;base64,${new Identicon(hashStr(issuer.id || issuer), 128).toString()}`)) || null;
+  const issuerImage = doDeepSearch(issuer, getLikelyImage)
+    || (generateImages && (`data:image/png;base64,${new Identicon(hashStr(issuer.id || issuer), 128).toString()}`)) || null;
   const subjectImage = doDeepSearch(credentialSubject, getLikelyImage) || null;
   const mainImage = subjectImage || issuerImage || null;
   return { issuerImage, subjectImage, mainImage };
@@ -194,13 +194,14 @@ export async function getVCData(credential, options = {}) {
     generateImages = true,
     generateQR = false,
     qrUrl = null,
+    didMap = null,
   } = options;
 
   const title = getTitle(credential);
   const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
-  const subjectName = getSubjectName(credential, options.didMap);
-  const issuerName = getIssuerName(credential, options.didMap);
-  const images = getCredentialImage(credential, options.generateImages);
+  const subjectName = getSubjectName(credential, didMap);
+  const issuerName = getIssuerName(credential, didMap);
+  const images = getCredentialImage(credential, generateImages);
   const issuanceDate = new Date(credential.issuanceDate);
   const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
