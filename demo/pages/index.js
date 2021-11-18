@@ -17,6 +17,7 @@ import { getVCData, getTitle } from '../../src/index';
 // We can supply a mapping of known DID human readable names
 const didMap = {
   'did:web:vc.transmute.world': 'Prestigous University',
+  'did:factom:5d0dd58757119dd437c70d92b44fbf86627ee275f0f2146c3d99e441da342d9f': 'Factom Issuer',
 };
 
 // Dynamically import json-editor component so SSR doesnt fail due to it

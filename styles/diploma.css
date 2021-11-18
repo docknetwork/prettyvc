@@ -38,7 +38,6 @@
   line-height: 1.4em;
   color: #71717A;
   margin-top: auto;
-
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -105,4 +104,29 @@
   max-width: 100%;
   margin-left: auto;
   flex-shrink: 0;
+}
+
+.prettyVC-diploma table {
+  text-align: left;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.prettyVC-diploma td,
+.prettyVC-diploma th {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  overflow-wrap: break-word;
+}
+
+.prettyVC-diploma tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.prettyVC-diploma th {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.1);
 }

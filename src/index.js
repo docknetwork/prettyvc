@@ -9,6 +9,21 @@ const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
 };
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function humanizeCamelCase(string) {
+  let result;
+  if (string.indexOf('-') === -1) {
+    result = string.replace(/([A-Z])/g, ' $1').trim();
+  } else {
+    result = string.replace(/-/g, ' ').trim();
+  }
+
+  return capitalizeFirstLetter(result);
+}
+
 export function getTitle({ type, name }, cutTitle = true) {
   let title = name;
 
@@ -17,11 +32,7 @@ export function getTitle({ type, name }, cutTitle = true) {
     for (let i = 0; i < type.length; i++) {
       const t = type[i];
       if (t !== 'VerifiableCredential') {
-        if (t.indexOf('-') === -1) {
-          title = t.replace(/([A-Z])/g, ' $1').trim();
-        } else {
-          title = t.replace(/-/g, ' ').trim();
-        }
+        title = humanizeCamelCase(t);
         break;
       }
     }
@@ -70,7 +81,7 @@ function mapDIDIfKnown(string, didMap) {
 
 function getIssuerName({ issuer }, didMap) {
   if (typeof issuer === 'string') {
-    return issuer;
+    return mapDIDIfKnown(issuer, didMap);
   }
 
   return mapDIDIfKnown(getObjectName(issuer, (s) => s.name), didMap);
@@ -99,7 +110,9 @@ function extractHumanNameFields(s) {
     || (s.givenName ? (s.familyName ? `${s.givenName} ${s.familyName}` : s.givenName) : '')
     || s.assay
     || s.status
-    || s.currentStatus;
+    || s.currentStatus
+    || s.carrier
+    || s.holder;
 }
 
 function extractNameFields(s) {
@@ -141,12 +154,35 @@ function guessCredentialTemplate({ type }) {
   if (lastType && lastType.substr(lastType.length - 4) === 'Card') {
     return 'card';
   }
-  return typeToTemplateMap[lastType] || 'diploma';
+  return typeToTemplateMap[lastType] || 'credential';
 }
 
 async function generateQRImage(credential, userSuppliedUrl) {
   const qrUrl = userSuppliedUrl || credential.id;
   return await QRCode.toDataURL(qrUrl);
+}
+
+export function objectToAttributesArray(object, result = [], parentName = '') {
+  const keys = Object.keys(object);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = object[key];
+    if (!value) {
+      continue;
+    }
+
+    if (typeof value === 'object') {
+      objectToAttributesArray(value, result, key + ' ');
+    } else {
+      result.push({
+        name: humanizeCamelCase(parentName + key),
+        value,
+      });
+    }
+  }
+
+  return result;
 }
 
 // TODO: Add config options like useidenticons and allow user to specify properties to look for in subject name, issuer name etc
@@ -172,8 +208,11 @@ export async function getVCData(credential, options = {}) {
 
   const template = options.template || guessCredentialTemplate(credential);
 
+  const attributes = objectToAttributesArray(credential.credentialSubject);
+
   return {
-    title, subjectName, issuerName, date, image: images.mainImage, images, documents, template, qrImage,
+    title, subjectName, issuerName, date, image: images.mainImage,
+    images, documents, template, qrImage, attributes,
   };
 }
 
