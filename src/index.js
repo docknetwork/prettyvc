@@ -7,6 +7,7 @@ import templates from './templates';
 // TODO: allow user to supply options for this too
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
+  HackathonCredential: 'hackathon',
 };
 
 function capitalizeFirstLetter(string) {
@@ -88,7 +89,7 @@ function getIssuerName({ issuer }, didMap) {
 }
 
 function getLikelyImage(s) {
-  const possibleImageKey = Object.keys(s).filter((b) => (b.toLowerCase().indexOf('image') > -1 || b.toLowerCase().indexOf('brandmark') > -1))[0];
+  const possibleImageKey = Object.keys(s).filter((b) => (b.toLowerCase().indexOf('image') > -1 || b.toLowerCase().indexOf('logo') > -1 || b.toLowerCase().indexOf('brandmark') > -1))[0];
   return s.image || s.logo || (possibleImageKey && s[possibleImageKey]);
 }
 
@@ -99,11 +100,30 @@ function hashStr(str) {
 }
 
 function getCredentialImage({ issuer, credentialSubject }, generateImages) {
+  const imagesList = [];
+
+  doDeepSearch(issuer, s => {
+    const r = getLikelyImage(s);
+    if (r) {
+      imagesList.push(r);
+    }
+    return null;
+  });
+
+  doDeepSearch(credentialSubject, s => {
+    const r = getLikelyImage(s);
+    if (r) {
+      imagesList.push(r);
+    }
+    return null;
+  });
+
+
   const issuerImage = doDeepSearch(issuer, getLikelyImage)
     || (generateImages && (`data:image/png;base64,${new Identicon(hashStr(issuer.id || issuer), 128).toString()}`)) || null;
   const subjectImage = doDeepSearch(credentialSubject, getLikelyImage) || null;
   const mainImage = subjectImage || issuerImage || null;
-  return { issuerImage, subjectImage, mainImage };
+  return { issuerImage, subjectImage, mainImage, imagesList };
 }
 
 function extractHumanNameFields(s) {
@@ -175,6 +195,7 @@ export function objectToAttributesArray(object, result = [], parentName = '') {
       } else {
         result.push({
           name: humanizeCamelCase(parentName + key),
+          property: parentName + key,
           value,
         });
       }
@@ -222,6 +243,7 @@ export async function getVCData(credential, options = {}) {
     template,
     qrImage,
     attributes,
+    issuer: credential.issuer,
   };
 }
 

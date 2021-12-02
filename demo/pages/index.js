@@ -169,6 +169,7 @@ export default function Home() {
         </main>
 
         <main
+          id="prettyvc-renderer"
           className={styles.renderer}
           style={{ fontSize: renderSize }}>
           <div

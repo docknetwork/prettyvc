@@ -73,3 +73,27 @@ button {
 .prettyVC {
   font-family: Nunito Sans;
 }
+
+@media print {
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  #prettyvc-renderer {
+    background: none;
+    padding: 0;
+    font-size: 25px!important;
+  }
+
+  body > div > div > div > main:first-child,
+  .jsoneditor-react-container,
+  body > div > div > footer,
+  body > div > div > div:first-child {
+    display: none!important;
+  }
+
+  body > div > div > div:last-child {
+    display: flex!important;
+  }
+}

@@ -9,8 +9,10 @@ import covidTest2 from '../vc-examples/docs/covid-19/v2/qSARS-CoV-2-Travel-Badge
 import covidTest3 from '../vc-examples/docs/covid-19/v1/verifiable-credential.json';
 import prcCredential from '../vc-examples/docs/prc/danube/prc.json';
 import forestTransportGuide from '../vc-examples-ca/plugfest-2020/vendors/factom/verifiable_credentials/ForestTransportGuide.json';
+import dockHackathon from '../vc-examples-dock/hackathon.json';
 
 export default [
+  dockHackathon,
   uniDegree,
   bolCredential,
   crudeInspectionDegree,

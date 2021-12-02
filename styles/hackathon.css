@@ -1,0 +1,177 @@
+.prettyVC-hackathon *,
+.prettyVC-hackathon *::before,
+.prettyVC-hackathon *::after {
+  font-family: Helvetica, sans-serif;
+  color: rgb(116 116 116 / 90%);
+  letter-spacing: -0.025em;
+}
+
+.prettyVC-hackathon-content {
+  background: #ffffff;
+  padding: 1.5em 2em;
+  border-radius: 0.25em;
+}
+
+.prettyVC-hackathon {
+  max-width: 2480px;
+  width: 100%;
+  min-height: 12em;
+  background: rgb(255, 197, 179);
+  border-radius: 0.25em;
+  padding: 2em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  color: #18181B;
+  overflow: hidden;
+  font-size: inherit;
+  text-align: center;
+}
+
+@media print {
+  .prettyVC-hackathon {
+    border-radius: 0;
+  }
+}
+
+.prettyVC-hackathon-qr {
+  margin-right: auto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.7em;
+  line-height: 1.4em;
+  color: #71717A;
+  margin-top: auto;
+  margin-right: 1em;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.prettyVC-hackathon-qr span {
+  font-size: 0.9em;
+  letter-spacing: 0.025em;
+}
+
+.prettyVC-hackathon-qr strong {
+  color: #000000;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+}
+
+.prettyVC-hackathon-qrimage {
+  margin: 0 auto;
+  width: 9em;
+}
+
+.prettyVC-hackathon-logo {
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-grow: 0;
+  margin-left: auto;
+  flex-direction: column;
+}
+
+.prettyVC-hackathon-logo > span {
+  font-size: 0.7em;
+  margin-bottom: 1em;
+}
+
+.prettyVC-hackathon-logo > img {
+  width: 5.5em;
+  height: 5.5em;
+}
+
+.prettyVC-hackathon-footerlogos {
+  margin-top: 0.8em;
+}
+
+.prettyVC-hackathon-footer {
+  margin-top: auto;
+  display: flex;
+  text-align: left;
+  align-items: flex-start;
+  margin-top: 1em;
+}
+
+.prettyVC-hackathon-headerimage {
+  width: 100%;
+  margin: 0 auto 1em auto;
+}
+
+.prettyVC-hackathon-title {
+  font-style: normal;
+  font-size: 1em;
+  line-height: 1.1em;
+  color: inherit;
+  flex: none;
+  flex-grow: 0;
+  margin: 0.2em 0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: normal;
+  color: #000000;
+}
+
+.prettyVC-hackathon-title > span {
+  font-size: 1em;
+}
+
+.prettyVC-hackathon-docklogo {
+  width: 8em;
+  margin: 0.75em auto 0.75em auto;
+}
+
+.prettyVC-hackathon-subtext {
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.4em;
+  font-size: 0.5em;
+  letter-spacing: 0.1em;
+  color: #000000;
+}
+
+.prettyVC-hackathon-subtext > strong {
+  color: #000000;
+  line-height: 1.25em;
+  font-size: 1.4em;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.prettyVC-hackathon-subtext > span {
+  font-size: 1.5em;
+  line-height: 1.5em;
+  text-transform: none;
+  color: #3c3c3c;
+  text-transform: lowercase;
+}
+
+.prettyvc-hackathon-countries {
+  display: flex;
+  width: 8.5em;
+  margin: 0.9em auto;
+}
+
+.prettyvc-hackathon-countries > img {
+  width: 2.5em;
+}
+
+.prettyvc-hackathon-countries > img:first-child {
+  margin-right: auto;
+}
+
+.prettyVC-hackathon-subtitle {
+  font-size: 0.9em;
+  letter-spacing: 0.025em;
+  color: #000000;
+}
+
+.prettyVC-hackathon-subtitle > span {
+  color: #3c3c3c;
+}
