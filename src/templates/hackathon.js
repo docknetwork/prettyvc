@@ -32,7 +32,7 @@ export default function TemplateHackathon(data) {
           <div class="prettyvc-hackathon-countries">
             ${issuer.countries.map(country => `
               <img src="${country.logo}" alt="${country.name}" />
-            `)}
+            `).join(' ')}
           </div>
         ` : ''}
 
