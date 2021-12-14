@@ -60,7 +60,7 @@
   flex-grow: 0;
   margin: 0.25em 0;
   text-overflow: ellipsis;
-  word-break: break-word;
+  word-break: break-all;
 }
 
 .prettyVC-diploma-subtitle {
@@ -73,7 +73,7 @@
   flex: none;
   flex-grow: 0;
   margin: 0.25em 0;
-  word-break: break-word;
+  word-break: break-all;
 }
 
 .prettyVC-diploma-headerimage {
@@ -117,7 +117,7 @@
 .prettyVC-diploma th {
   border: 1px solid #ddd;
   padding: 0.5em;
-  overflow-wrap: break-word;
+  overflow-wrap: break-all;
 }
 
 .prettyVC-diploma tr:nth-child(odd) {
