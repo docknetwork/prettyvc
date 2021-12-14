@@ -102,28 +102,24 @@ function hashStr(str) {
 function getCredentialImage({ issuer, credentialSubject }, generateImages) {
   const imagesList = [];
 
-  doDeepSearch(issuer, s => {
+  function pushToList(s) {
     const r = getLikelyImage(s);
     if (r) {
       imagesList.push(r);
     }
     return null;
-  });
+  }
 
-  doDeepSearch(credentialSubject, s => {
-    const r = getLikelyImage(s);
-    if (r) {
-      imagesList.push(r);
-    }
-    return null;
-  });
-
+  doDeepSearch(issuer, pushToList);
+  doDeepSearch(credentialSubject, pushToList);
 
   const issuerImage = doDeepSearch(issuer, getLikelyImage)
     || (generateImages && (`data:image/png;base64,${new Identicon(hashStr(issuer.id || issuer), 128).toString()}`)) || null;
   const subjectImage = doDeepSearch(credentialSubject, getLikelyImage) || null;
   const mainImage = subjectImage || issuerImage || null;
-  return { issuerImage, subjectImage, mainImage, imagesList };
+  return {
+    issuerImage, subjectImage, mainImage, imagesList,
+  };
 }
 
 function extractHumanNameFields(s) {

@@ -2,8 +2,7 @@ import sanitize from '../utils/sanitize';
 
 export default function TemplateHackathon(data) {
   const {
-    title, issuerName, issuer, subjectName,
-    date, image, images, qrImage, attributes, documents,
+    issuer, subjectName, date, images, qrImage, attributes, documents,
   } = data;
 
   const eventDocument = documents[0] && documents[0][0];
@@ -25,12 +24,12 @@ export default function TemplateHackathon(data) {
 
         <p class="prettyVC-hackathon-subtext">
           A verifiable credential certificate for participating in<br />
-          <strong>${eventName ? eventName : 'A Hackathon'}</strong>
+          <strong>${eventName || 'A Hackathon'}</strong>
         </p>
 
         ${issuer.countries ? `
           <div class="prettyvc-hackathon-countries">
-            ${issuer.countries.map(country => `
+            ${issuer.countries.map((country) => `
               <img src="${country.logo}" alt="${country.name}" />
             `).join(' ')}
           </div>
@@ -45,12 +44,12 @@ export default function TemplateHackathon(data) {
           <strong>${sanitize(subjectName)}</strong>
           <br />
 
-          ${attributes.map((attribute, index) => (attribute.name === 'Name' || index >= 3) ? '' : `
+          ${attributes.map((attribute, index) => ((attribute.name === 'Name' || index >= 3) ? '' : `
             <span>${attribute.name}</span>
             <br />
             <strong>${attribute.value}</strong>
             <br />
-          `).join(' ')}
+          `)).join(' ')}
         </h3>
 
         <div class="prettyVC-hackathon-footer">
