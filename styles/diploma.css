@@ -1,3 +1,9 @@
+.prettyVC-diploma *,
+.prettyVC-diploma *::before,
+.prettyVC-diploma *::after {
+  font-family: Helvetica, sans-serif;
+}
+
 .prettyVC-diploma {
   max-width: 38.75em;
   width: 100%;
@@ -64,7 +70,6 @@
 }
 
 .prettyVC-diploma-subtitle {
-  font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
   font-size: 1.5em;
