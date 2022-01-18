@@ -126,12 +126,12 @@
 }
 
 .prettyVC-diploma tr:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.025);
+  background-color: rgb(249 249 249);
 }
 
 .prettyVC-diploma th {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   text-align: left;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(227 227 227);
 }
