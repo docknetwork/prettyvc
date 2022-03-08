@@ -28,3 +28,5 @@ export default function TemplateCard({
     </div>
   `;
 }
+
+TemplateCard.orientation = 'landscape';

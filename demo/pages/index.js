@@ -12,7 +12,7 @@ import vcExamples from '../components/vc-examples';
 import vcTemplates from '../../src/templates/index';
 
 // Using getVCData instead of getVCHTML here so that we can override the template
-import { getVCData, getTitle } from '../../src/index';
+import { getVCData, renderVCHTML, getTitle } from '../../src/index';
 
 // We can supply a mapping of known DID human readable names
 const didMap = {
@@ -50,7 +50,7 @@ export default function Home() {
   const [renderSize, setRenderSize] = useState(16);
   const [selectedTemplate, setTemplate] = useState();
   const [vcData, setVCData] = useState({});
-  const vcHTML = vcData.template && vcTemplates[vcData.template](vcData);
+  const vcHTML = renderVCHTML(vcData);
   const templateKeys = Object.keys(vcTemplates);
 
   async function onUpdateJSON() {
@@ -177,7 +177,7 @@ export default function Home() {
             style={{
               maxWidth: '38.75em', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
             }}
-            dangerouslySetInnerHTML={{ __html: vcHTML }}>
+            dangerouslySetInnerHTML={{ __html: vcHTML.html }}>
           </div>
         </main>
       </div>

@@ -243,7 +243,16 @@ export async function getVCData(credential, options = {}) {
   };
 }
 
+export function renderVCHTML(data) {
+  const templateFn = templates[data.template || 'card'];
+  const orientation = templateFn.orientation || 'portrait';
+  return {
+    html: templateFn(data),
+    orientation,
+  };
+}
+
 export async function getVCHTML(credential, options) {
   const data = await getVCData(credential, options);
-  return templates[data.template || 'card'](data);
+  return renderVCHTML(data);
 }
