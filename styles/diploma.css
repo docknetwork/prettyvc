@@ -20,6 +20,10 @@
   text-align: center;
 }
 
+.prettyVC-diploma-landscape {
+  max-width: 77.5em;
+}
+
 .prettyVC-diploma-subtext {
   font-style: normal;
   font-weight: normal;
