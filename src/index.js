@@ -243,8 +243,10 @@ export async function getVCData(credential, options = {}) {
   };
 }
 
-export function renderVCHTML(data) {
-  const templateFn = templates[data.template || 'card'];
+export function renderVCHTML(data, options = {}) {
+  const templateId = data.template || 'card';
+  const customTemplates = options.templates || {};
+  const templateFn = customTemplates[templateId] || templates[templateId];
   const orientation = templateFn.orientation || 'portrait';
   return {
     html: templateFn(data),
@@ -254,5 +256,5 @@ export function renderVCHTML(data) {
 
 export async function getVCHTML(credential, options) {
   const data = await getVCData(credential, options);
-  return renderVCHTML(data);
+  return renderVCHTML(data, options);
 }
