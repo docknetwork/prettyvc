@@ -253,6 +253,7 @@ export function renderVCHTML(data, options = {}) {
   return {
     html: templateFn(data),
     orientation,
+    templateId,
   };
 }
 
