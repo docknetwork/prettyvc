@@ -1,5 +1,5 @@
 import { getVCData } from '../src/index';
-import uniDegree from '../demo/vc-examples/docs/edu/university-degree-verifiable-credential.json';
+import uniDegree from '../demo/vc-examples-dock/university-degree-verifiable-credential.json';
 
 describe('getVCData - UniversityDegreeCredential', () => {
   let vcData;
