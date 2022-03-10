@@ -4,7 +4,6 @@ import jsSHA from 'jssha';
 
 import templates from './templates';
 
-// TODO: allow user to supply options for this too
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
   HackathonCredential: 'hackathon',
@@ -166,12 +165,12 @@ function getSubjectDocuments({ credentialSubject }) {
   });
 }
 
-function guessCredentialTemplate({ type }) {
+function guessCredentialTemplate({ type }, customTemplateMap) {
   const lastType = type[type.length - 1];
   if (lastType && lastType.substr(lastType.length - 4) === 'Card') {
     return 'card';
   }
-  return typeToTemplateMap[lastType] || 'credential';
+  return customTemplateMap[lastType] || typeToTemplateMap[lastType] || 'credential';
 }
 
 async function generateQRImage(credential, userSuppliedUrl) {
@@ -224,9 +223,11 @@ export async function getVCData(credential, options = {}) {
   const date = formatter.format(issuanceDate);
   const qrImage = generateQR && (await generateQRImage(credential, qrUrl));
 
-  const template = options.template || guessCredentialTemplate(credential);
+  const template = options.template || guessCredentialTemplate(credential, options.typeToTemplateMap || {});
 
   const attributes = objectToAttributesArray(credential.credentialSubject);
+
+  const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
 
   return {
     title,
@@ -239,6 +240,7 @@ export async function getVCData(credential, options = {}) {
     template,
     qrImage,
     attributes,
+    subjects,
     issuer: credential.issuer,
   };
 }
