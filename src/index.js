@@ -165,7 +165,7 @@ function getSubjectDocuments({ credentialSubject }) {
   });
 }
 
-function guessCredentialTemplate({ type }, customTemplateMap) {
+export function guessCredentialTemplate({ type }, customTemplateMap = {}) {
   const lastType = type[type.length - 1];
   if (lastType && lastType.substr(lastType.length - 4) === 'Card') {
     return 'card';
