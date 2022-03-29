@@ -26,35 +26,44 @@
 
 .prettyVC-diploma-subtext {
   font-style: normal;
-  font-weight: normal;
-  font-size: 1em;
-  line-height: 1.25em;
+  font-weight: 400;
+  font-size: 0.875em;
+  line-height: 20px;
   color: #27272A;
   text-overflow: ellipsis;
   overflow: hidden;
+  margin-top: 0.5em;
 }
 
 .prettyVC-diploma-footer {
   margin-top: auto;
   display: flex;
   text-align: left;
+  padding-top: 2em;
 }
 
 .prettyVC-diploma-footersubject {
-  margin-right: auto;
   font-style: normal;
   font-weight: normal;
-  font-size: 0.8em;
-  line-height: 1.4em;
+  font-size: 0.9em;
+  line-height: 1.45em;
   color: #71717A;
-  margin-top: auto;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  margin-left: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prettyVC-diploma-footersubject-wrap {
+  display: flex;
+  margin-top: auto;
   margin-right: 1em;
 }
 
-.prettyVC-diploma-footersubject > strong {
+.prettyVC-diploma-footersubject-wrap > strong {
   font-style: normal;
   font-weight: bold;
   color: #27272A;
@@ -63,37 +72,40 @@
 .prettyVC-diploma-title {
   font-style: normal;
   font-weight: 600;
-  font-size: 2.5em;
-  line-height: 1.5em;
+  font-size: 1.25em;
+  line-height: 28px;
   color: inherit;
   flex: none;
   flex-grow: 0;
   margin: 0.25em 0;
   text-overflow: ellipsis;
-  word-break: break-all;
 }
 
 .prettyVC-diploma-subtitle {
   font-style: normal;
   font-weight: 600;
-  font-size: 1.5em;
-  line-height: 1.75em;
+  font-size: 2.25em;
+  line-height: 1.25em;
   color: inherit;
   flex: none;
   flex-grow: 0;
   margin: 0.25em 0;
-  word-break: break-all;
 }
 
 .prettyVC-diploma-headerimage {
   margin: 15px auto 20px auto;
   border-radius: 100%;
-  width: 8em;
+  width: 6em;
 }
 
 .prettyVC-diploma-qrimage {
-  margin: 10px auto 20px auto;
+  margin-left: auto;
   width: 8em;
+}
+
+.prettyVC-diploma-qrimage-center {
+  width: 8em;
+  margin: 20px auto 0 auto;
 }
 
 .prettyVC-diploma-logo {
@@ -125,17 +137,33 @@
 .prettyVC-diploma td,
 .prettyVC-diploma th {
   border: 1px solid #ddd;
-  padding: 0.5em;
-  overflow-wrap: break-all;
+  padding: 0.75em;
+  height: 2.5em;
+  letter-spacing: 0.05em;
+  color: #71717A;
+  font-size: 0.875em;
+  line-height: 1.5em;
+  word-wrap: break-word;
 }
 
-.prettyVC-diploma tr:nth-child(odd) {
-  background-color: rgb(249 249 249);
+.prettyVC-diploma tr {
+  background-color: transparent;
+  height: 3.1875em;
+}
+
+.prettyVC-diploma tr strong {
+  font-weight: 600;
+  color: #3F3F46;
 }
 
 .prettyVC-diploma th {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   text-align: left;
-  background-color: rgb(227 227 227);
+  background-color: #FAFAFA;
+  font-style: normal;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-size: 0.75em;
 }
