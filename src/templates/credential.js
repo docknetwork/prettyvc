@@ -5,8 +5,8 @@ export default function TemplateCredential({
 }) {
   const attributesTableRows = attributes.map((attribute) => (`
     <tr>
-      <td><strong>${attribute.name}</strong></td>
-      <td>${attribute.value}</td>
+      <td><strong>${sanitize(attribute.name)}</strong></td>
+      <td>${sanitize(attribute.value)}</td>
     </tr>
   `)).join('\n');
   return `

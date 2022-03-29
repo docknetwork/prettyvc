@@ -45,9 +45,9 @@ export default function TemplateHackathon(data) {
           <br />
 
           ${attributes.map((attribute, index) => ((attribute.name === 'Name' || index >= 3) ? '' : `
-            <span>${attribute.name}</span>
+            <span>${sanitize(attribute.name)}</span>
             <br />
-            <strong>${attribute.value}</strong>
+            <strong>${sanitize(attribute.value)}</strong>
             <br />
           `)).join(' ')}
         </h3>
