@@ -23,6 +23,7 @@
     "no-return-await": "off",
     "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "sonarjs/cognitive-complexity": "off"
   }
 }
