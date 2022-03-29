@@ -156,11 +156,13 @@ function getSubjectDocuments({ credentialSubject }) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
   return subjects.map((s) => {
     const docs = [];
-    Object.keys(s).forEach((k) => {
-      if (typeof s[k] === 'object') {
-        docs.push(s[k]);
-      }
-    });
+    if (s && typeof s === 'object') {
+      Object.keys(s).forEach((k) => {
+        if (typeof s[k] === 'object') {
+          docs.push(s[k]);
+        }
+      });
+    }
     return docs;
   });
 }

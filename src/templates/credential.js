@@ -5,7 +5,7 @@ export default function TemplateCredential({
 }) {
   const attributesTableRows = attributes.map((attribute) => (`
     <tr>
-      <td>${attribute.name}</td>
+      <td><strong>${attribute.name}</strong></td>
       <td>${attribute.value}</td>
     </tr>
   `)).join('\n');
@@ -25,11 +25,8 @@ export default function TemplateCredential({
         </h3>
       ` : ''}
 
-      ${qrImage ? `
-        <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage" />
-      ` : ''}
-
       ${attributes.length ? `
+        <br />
         <table>
           <tr>
             <th>Attribute</th>
@@ -41,18 +38,23 @@ export default function TemplateCredential({
       ` : ''}
 
       <div class="prettyVC-diploma-footer">
-        <div class="prettyVC-diploma-footersubject">
-          <strong>${sanitize(title)}</strong><br />
-          Issued on: ${sanitize(date)}
-          ${expiryDate ? `
-            <br />
-            Expire at: ${sanitize(expiryDate)}
+        <div class="prettyVC-diploma-footersubject-wrap">
+          ${image ? `
+            <div class="prettyVC-diploma-logo">
+              <img src="${sanitize(image)}" />
+            </div>
           ` : ''}
-        </div>
-        ${image ? `
-          <div class="prettyVC-diploma-logo">
-            <img src="${sanitize(image)}" />
+          <div class="prettyVC-diploma-footersubject">
+            <strong>${sanitize(title)}</strong>
+            <span>Issued on: ${sanitize(date)}</span>
+            ${expiryDate ? `
+              <span>Expire at: ${sanitize(expiryDate)}</span>
+            ` : ''}
           </div>
+        </div>
+
+        ${qrImage ? `
+          <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage" />
         ` : ''}
       </div>
     </div>

@@ -29,32 +29,28 @@ export default function TemplateDiploma({
         ${sanitize(issuerName)}
       </h2>
       <p class="prettyVC-diploma-subtext">
-        has awarded a verifiable credential in the degree of a
+        has issued a <strong>${sanitize(degreeName || title)}</strong> to
       </p>
+
+      <br />
       <h3 class="prettyVC-diploma-subtitle">
-        ${sanitize(degreeName)}
+        ${sanitize(personName || 'Unnamed Person')}
       </h3>
-      ${personName ? `
-        <p class="prettyVC-diploma-subtext">
-          to the subject
-        </p>
-        <h3 class="prettyVC-diploma-subtitle">
-          ${sanitize(personName)}
-        </h3>
-      ` : ''}
+      <br />
 
       ${qrImage ? `
-        <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage" />
+        <img src="${sanitize(qrImage)}" class="prettyVC-diploma-qrimage-center" />
       ` : ''}
-      
+
       <div class="prettyVC-diploma-footer">
-        <div class="prettyVC-diploma-footersubject">
-          <strong>${sanitize(title)}</strong><br />
-          Issued on: ${sanitize(date)}
-          ${expiryDate ? `
-            <br />
-            Expire at: ${sanitize(expiryDate)}
-          ` : ''}
+        <div class="prettyVC-diploma-footersubject-wrap">
+          <div class="prettyVC-diploma-footersubject">
+            <strong>${sanitize(title)}</strong>
+            <span>Issued on: ${sanitize(date)}</span>
+            ${expiryDate ? `
+              <span>Expire at: ${sanitize(expiryDate)}</span>
+            ` : ''}
+          </div>
         </div>
         ${image ? `
           <div class="prettyVC-diploma-logo">
