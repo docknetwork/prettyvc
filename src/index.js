@@ -221,8 +221,10 @@ export async function getVCData(credential, options = {}) {
   const issuerName = getIssuerName(credential, didMap);
   const images = getCredentialImage(credential, generateImages);
   const issuanceDate = new Date(credential.issuanceDate);
+  const expirationDate = credential.expirationDate && new Date(credential.expirationDate);
   const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
+  const expirationDateStr = expirationDate ? formatter.format(expirationDate) : '';
   const qrImage = generateQR && (await generateQRImage(credential, qrUrl));
 
   const template = options.template || guessCredentialTemplate(credential, options.typeToTemplateMap || {});
@@ -244,6 +246,12 @@ export async function getVCData(credential, options = {}) {
     attributes,
     subjects,
     issuer: credential.issuer,
+
+    // Dates
+    issuanceDate,
+    expirationDate,
+    expirationDateStr,
+    dateStr: date,
   };
 }
 
