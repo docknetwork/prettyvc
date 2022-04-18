@@ -18,7 +18,7 @@ export default function TemplateCredential({
 
       ${subjectName ? `
         <p class="prettyVC-diploma-subtext">
-          has issued a <strong>${sanitize(title)}</strong> credential to
+          has issued a <strong>${sanitize(title)}</strong> to
         </p>
         <h3 class="prettyVC-diploma-subtitle">
           ${sanitize(subjectName)}
