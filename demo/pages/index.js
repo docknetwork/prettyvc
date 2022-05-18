@@ -3,6 +3,7 @@ import Slider, { SliderTooltip } from 'rc-slider';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { toPng } from 'html-to-image';
+import QRCode from 'qrcode';
 
 // Styles for this page
 import styles from '../styles/index.module.css';
@@ -53,13 +54,16 @@ export default function Home() {
   const vcHTML = renderVCHTML(vcData);
   const templateKeys = Object.keys(vcTemplates);
 
+  async function generateQRImage(credential) {
+    return QRCode.toDataURL(credential.id);
+  }
+
   async function onUpdateJSON() {
     const data = await getVCData(json, {
       template: selectedTemplate,
-      generateQR: true,
+      generateQRImage,
       didMap,
     });
-    console.log('data', data);
     setVCData(data);
   }
 

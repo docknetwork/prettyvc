@@ -214,6 +214,11 @@ export async function getVCData(credential, options = {}) {
     didMap = null,
   } = options;
 
+  // Type validation
+  if (generateQRImage && typeof generateQRImage !== 'function') {
+    throw new Error(`generateQRImage must be an async function`);
+  }
+
   const title = getTitle(credential);
   const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
   const subjectName = getSubjectName(credential, didMap);
