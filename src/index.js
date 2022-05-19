@@ -1,5 +1,4 @@
 import Identicon from 'identicon.js'; // THINK: should this be a peer dep or user supplied method to generate?
-import QRCode from 'qrcode'; // THINK: should this be a peer dep or user supplied method to generate?
 import jsSHA from 'jssha';
 
 import templates from './templates';
@@ -88,6 +87,9 @@ function getIssuerName({ issuer }, didMap) {
 }
 
 function getLikelyImage(s) {
+  if (!s) {
+    return undefined;
+  }
   const possibleImageKey = Object.keys(s).filter((b) => (b.toLowerCase().indexOf('image') > -1 || b.toLowerCase().indexOf('logo') > -1 || b.toLowerCase().indexOf('brandmark') > -1))[0];
   return s.image || s.logo || (possibleImageKey && s[possibleImageKey]);
 }
@@ -122,6 +124,9 @@ function getCredentialImage({ issuer, credentialSubject }, generateImages) {
 }
 
 function extractHumanNameFields(s) {
+  if (!s) {
+    return undefined;
+  }
   return s.name
     || (s.givenName ? (s.familyName ? `${s.givenName} ${s.familyName}` : s.givenName) : '')
     || s.assay
@@ -175,11 +180,6 @@ export function guessCredentialTemplate({ type }, customTemplateMap = {}) {
   return customTemplateMap[lastType] || typeToTemplateMap[lastType] || 'credential';
 }
 
-async function generateQRImage(credential, userSuppliedUrl) {
-  const qrUrl = userSuppliedUrl || credential.id;
-  return await QRCode.toDataURL(qrUrl);
-}
-
 export function objectToAttributesArray(object, result = [], parentName = '') {
   const keys = Object.keys(object);
 
@@ -210,10 +210,14 @@ export async function getVCData(credential, options = {}) {
 
   const {
     generateImages = true,
-    generateQR = false,
-    qrUrl = null,
+    generateQRImage = null,
     didMap = null,
   } = options;
+
+  // Type validation
+  if (generateQRImage && typeof generateQRImage !== 'function') {
+    throw new Error('generateQRImage must be an async function');
+  }
 
   const title = getTitle(credential);
   const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
@@ -225,7 +229,7 @@ export async function getVCData(credential, options = {}) {
   const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
   const expirationDateStr = expirationDate ? formatter.format(expirationDate) : '';
-  const qrImage = generateQR && (await generateQRImage(credential, qrUrl));
+  const qrImage = generateQRImage && (await generateQRImage(credential));
 
   const template = options.template || guessCredentialTemplate(credential, options.typeToTemplateMap || {});
 
