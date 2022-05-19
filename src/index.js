@@ -216,7 +216,7 @@ export async function getVCData(credential, options = {}) {
 
   // Type validation
   if (generateQRImage && typeof generateQRImage !== 'function') {
-    throw new Error(`generateQRImage must be an async function`);
+    throw new Error('generateQRImage must be an async function');
   }
 
   const title = getTitle(credential);
