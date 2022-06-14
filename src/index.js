@@ -23,8 +23,9 @@ export function humanizeCamelCase(string) {
   return capitalizeFirstLetter(result);
 }
 
-export function getTitle({ type, name }, cutTitle = true) {
-  let title = name;
+export function getTitle({ type, name, credentialSubject }, cutTitle = true) {
+  const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
+  let title = name || (subjects[0] && subjects[0].title);
 
   // Get title from type of credential
   if (!title && type && type.length) {
