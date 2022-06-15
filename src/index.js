@@ -138,6 +138,10 @@ function extractHumanNameFields(s) {
 }
 
 function extractNameFields(s) {
+  if (!s) {
+    return '';
+  }
+
   // Try to extract based on most often used human readable fields for names
   const humanNames = extractHumanNameFields(s);
   if (humanNames) {
@@ -155,7 +159,7 @@ function extractNameFields(s) {
 
 function getSubjectName({ credentialSubject }, didMap) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map((s) => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
+  return subjects.map((s) => s && mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
 }
 
 function getSubjectDocuments({ credentialSubject }) {
