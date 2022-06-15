@@ -23,8 +23,9 @@ export function humanizeCamelCase(string) {
   return capitalizeFirstLetter(result);
 }
 
-export function getTitle({ type, name }, cutTitle = true) {
-  let title = name;
+export function getTitle({ type, name, credentialSubject }, cutTitle = true) {
+  const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
+  let title = name || (subjects[0] && subjects[0].title);
 
   // Get title from type of credential
   if (!title && type && type.length) {
@@ -137,6 +138,10 @@ function extractHumanNameFields(s) {
 }
 
 function extractNameFields(s) {
+  if (!s) {
+    return '';
+  }
+
   // Try to extract based on most often used human readable fields for names
   const humanNames = extractHumanNameFields(s);
   if (humanNames) {
@@ -154,7 +159,7 @@ function extractNameFields(s) {
 
 function getSubjectName({ credentialSubject }, didMap) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map((s) => mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
+  return subjects.map((s) => s && mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
 }
 
 function getSubjectDocuments({ credentialSubject }) {
