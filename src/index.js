@@ -217,6 +217,7 @@ export async function getVCData(credential, options = {}) {
     generateImages = true,
     generateQRImage = null,
     didMap = null,
+    locale = 'en-US',
   } = options;
 
   // Type validation
@@ -231,7 +232,7 @@ export async function getVCData(credential, options = {}) {
   const images = getCredentialImage(credential, generateImages);
   const issuanceDate = new Date(credential.issuanceDate);
   const expirationDate = credential.expirationDate && new Date(credential.expirationDate);
-  const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const formatter = new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long', day: 'numeric' });
   const date = formatter.format(issuanceDate);
   const expirationDateStr = expirationDate ? formatter.format(expirationDate) : '';
   const qrImage = generateQRImage && (await generateQRImage(credential));
