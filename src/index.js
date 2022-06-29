@@ -230,7 +230,7 @@ export async function getVCData(credential, options = {}) {
   }
 
   const title = getTitle(credential);
-  const secondaryTitle = getTitleFromType(credential);
+  const humanizedType = getTitleFromType(credential);
   const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
   const subjectName = getSubjectName(credential, didMap);
   const issuerName = getIssuerName(credential, didMap);
@@ -249,7 +249,7 @@ export async function getVCData(credential, options = {}) {
   const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
 
   return {
-    secondaryTitle,
+    humanizedType,
     title,
     subjectName,
     issuerName,
