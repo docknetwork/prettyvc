@@ -22,20 +22,24 @@ export function humanizeCamelCase(string) {
 
   return capitalizeFirstLetter(result);
 }
-
+export function getTitleFromType({ type }) {
+  let title;
+  for (let i = 0; i < type.length; i++) {
+    const t = type[i];
+    if (t !== 'VerifiableCredential') {
+      title = humanizeCamelCase(t);
+      break;
+    }
+  }
+  return title;
+}
 export function getTitle({ type, name, credentialSubject }, cutTitle = true) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
   let title = name || (subjects[0] && subjects[0].title);
 
   // Get title from type of credential
   if (!title && type && type.length) {
-    for (let i = 0; i < type.length; i++) {
-      const t = type[i];
-      if (t !== 'VerifiableCredential') {
-        title = humanizeCamelCase(t);
-        break;
-      }
-    }
+    title = getTitleFromType({ type });
   }
 
   if (title && cutTitle && title.length >= 30 && title.endsWith(' Credential')) {
@@ -226,6 +230,7 @@ export async function getVCData(credential, options = {}) {
   }
 
   const title = getTitle(credential);
+  const secondaryTitle = getTitleFromType(credential);
   const documents = getSubjectDocuments(credential); // Identify documents in the subject, such as "degree.name"
   const subjectName = getSubjectName(credential, didMap);
   const issuerName = getIssuerName(credential, didMap);
@@ -244,6 +249,7 @@ export async function getVCData(credential, options = {}) {
   const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
 
   return {
+    secondaryTitle,
     title,
     subjectName,
     issuerName,
