@@ -8,9 +8,19 @@
     "type": "git",
     "url": "https://github.com/docknetwork/prettyvc"
   },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 44,
+        "functions": 66,
+        "lines": 66,
+        "statements": 66
+      }
+    }
+  },
   "scripts": {
     "lint": "eslint \"src/**/*.js\"",
-    "test": "jest --verbose ./tests",
+    "test": "jest --coverage --collectCoverageFrom=src/**/** --verbose ./tests",
     "prepublish": "babel src --out-dir lib"
   },
   "babel": {

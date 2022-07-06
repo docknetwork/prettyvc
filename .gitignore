@@ -2,3 +2,5 @@
 demo/node_modules
 /lib/
 .idea
+coverage
+
