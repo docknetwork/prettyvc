@@ -51,7 +51,7 @@ export default function Home() {
   const [renderSize, setRenderSize] = useState(16);
   const [selectedTemplate, setTemplate] = useState();
   const [vcData, setVCData] = useState({});
-  const vcHTML = renderVCHTML(vcData);
+  const [vcHTML, setVCHTML] = useState('');
   const templateKeys = Object.keys(vcTemplates);
 
   async function generateQRImage(credential) {
@@ -105,9 +105,18 @@ export default function Home() {
     document.body.removeChild(link);
   }
 
+  async function onUpdateData() {
+    const html = await renderVCHTML(vcData);
+    setVCHTML(html);
+  }
+
   useEffect(() => {
     onUpdateJSON();
   }, [json, selectedTemplate]);
+
+  useEffect(() => {
+    onUpdateData();
+  }, [vcData]);
 
   return (
     <div className={styles.columnWrapper}>

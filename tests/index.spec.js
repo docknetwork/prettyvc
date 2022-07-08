@@ -1,4 +1,4 @@
-import { guessCredentialTemplate } from '../src/index';
+import { guessCredentialTemplate, renderVCHTML } from '../src/index';
 
 describe('Index', () => {
   test('guessCredentialTemplate baseline', async () => {
@@ -24,4 +24,15 @@ describe('Index', () => {
     expect(template).toEqual('debugtemplate');
   });
 
+  test('renderVCHTML renders liquid template', async () => {
+    const { html } = await renderVCHTML({
+      credentialSubject: { name: 'test' },
+      prettyVC: {
+        type: 'liquid',
+        proof: '<div style="display:flex">{{credentialSubject.name}}</div>'
+      }
+    });
+    expect(html).toEqual('<div style="display:flex">test</div>');
+  });
 });
+
