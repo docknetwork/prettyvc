@@ -284,7 +284,7 @@ export async function getVCData(credential, options = {}) {
   };
 }
 
-export async function renderLiquidTemplate(templateContents, data) {
+async function renderLiquidTemplate(templateContents, data) {
   const tpl = liquidEngine.parse(templateContents);
   const result = await liquidEngine.render(tpl, data);
   return cleanHTML(result);
