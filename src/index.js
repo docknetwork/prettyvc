@@ -13,6 +13,7 @@ const typeToTemplateMap = {
 };
 
 export const cleanHTML = (html) => sanitizeHtml(html, {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['style']),
   allowedAttributes: {
     '*': ['style'],
     a: ['href', 'name', 'target'],
