@@ -1,12 +1,24 @@
 import Identicon from 'identicon.js'; // THINK: should this be a peer dep or user supplied method to generate?
+import { Liquid } from 'liquidjs';
+import sanitizeHtml from 'sanitize-html';
 import jsSHA from 'jssha';
 
 import templates from './templates';
+
+const liquidEngine = new Liquid();
 
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
   HackathonCredential: 'hackathon',
 };
+
+export const cleanHTML = (html) => sanitizeHtml(html, {
+  allowedAttributes: {
+    '*': ['style'],
+    a: ['href', 'name', 'target'],
+    img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+  },
+});
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -249,6 +261,8 @@ export async function getVCData(credential, options = {}) {
   const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
 
   return {
+    ...credential,
+
     humanizedType,
     title,
     subjectName,
@@ -261,7 +275,6 @@ export async function getVCData(credential, options = {}) {
     qrImage,
     attributes,
     subjects,
-    issuer: credential.issuer,
 
     // Dates
     issuanceDate,
@@ -271,7 +284,24 @@ export async function getVCData(credential, options = {}) {
   };
 }
 
-export function renderVCHTML(data, options = {}) {
+export async function renderLiquidTemplate(templateContents, data) {
+  const tpl = liquidEngine.parse(templateContents);
+  const result = await liquidEngine.render(tpl, data);
+  return cleanHTML(result);
+}
+
+export async function renderVCHTML(data, options = {}) {
+  if (data.prettyVC) {
+    const { type, proof } = data.prettyVC;
+    if (type === 'liquid') {
+      return {
+        html: await renderLiquidTemplate(proof, data),
+        orientation: 'landscape', // TODO: could we set this based on the type or remove it?
+        templateId: type,
+      };
+    }
+  }
+
   const templateId = data.template || 'card';
   const customTemplates = options.templates || {};
   const templateFn = customTemplates[templateId] || templates[templateId];
@@ -285,5 +315,5 @@ export function renderVCHTML(data, options = {}) {
 
 export async function getVCHTML(credential, options) {
   const data = await getVCData(credential, options);
-  return renderVCHTML(data, options);
+  return await renderVCHTML(data, options);
 }
