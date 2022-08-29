@@ -5,7 +5,9 @@ import jsSHA from 'jssha';
 
 import templates from './templates';
 
-const liquidEngine = new Liquid();
+const liquidEngine = new Liquid({
+  cache: true,
+};
 
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
@@ -286,23 +288,25 @@ export async function getVCData(credential, options = {}) {
 }
 
 async function renderLiquidTemplate(templateContents, data) {
-  const tpl = liquidEngine.parse(templateContents);
-  const result = await liquidEngine.render(tpl, data);
+  const result = await liquidEngine.parseAndRender(templateContents, data);
   return cleanHTML(result);
 }
 
 export async function renderVCHTML(data, options = {}) {
+  // V2 support
   if (data.prettyVC) {
-    const { type, proof } = data.prettyVC;
+    const { type, proof, orientation = 'landscape', size = 'a4' } = data.prettyVC;
     if (type === 'liquid') {
       return {
         html: await renderLiquidTemplate(proof, data),
-        orientation: 'landscape', // TODO: could we set this based on the type or remove it?
+        size,
+        orientation,
         templateId: type,
       };
     }
   }
 
+  // Legacy V1 support
   const templateId = data.template || 'card';
   const customTemplates = options.templates || {};
   const templateFn = customTemplates[templateId] || templates[templateId];
