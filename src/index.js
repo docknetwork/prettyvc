@@ -7,7 +7,7 @@ import templates from './templates';
 
 const liquidEngine = new Liquid({
   cache: true,
-};
+});
 
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
@@ -295,7 +295,9 @@ async function renderLiquidTemplate(templateContents, data) {
 export async function renderVCHTML(data, options = {}) {
   // V2 support
   if (data.prettyVC) {
-    const { type, proof, orientation = 'landscape', size = 'a4' } = data.prettyVC;
+    const {
+      type, proof, orientation = 'landscape', size = 'a4',
+    } = data.prettyVC;
     if (type === 'liquid') {
       return {
         html: await renderLiquidTemplate(proof, data),
