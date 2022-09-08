@@ -293,7 +293,9 @@ async function renderLiquidTemplate(templateContents, data) {
 
 export async function renderVCHTML(data, options = {}) {
   if (data.prettyVC) {
-    const { type, proof, orientation = 'landscape', size = 'a4' } = data.prettyVC;
+    const {
+      type, proof, orientation = 'landscape', size = 'a4',
+    } = data.prettyVC;
     if (type === 'liquid') {
       return {
         html: await renderLiquidTemplate(proof, data),
