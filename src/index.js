@@ -13,7 +13,7 @@ const typeToTemplateMap = {
 };
 
 export const cleanHTML = (html) => sanitizeHtml(html, {
-  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['style']),
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['style', 'img']),
   allowedAttributes: {
     '*': ['style'],
     a: ['href', 'name', 'target'],
@@ -293,12 +293,13 @@ async function renderLiquidTemplate(templateContents, data) {
 
 export async function renderVCHTML(data, options = {}) {
   if (data.prettyVC) {
-    const { type, proof } = data.prettyVC;
+    const { type, proof, orientation = 'landscape', size = 'a4' } = data.prettyVC;
     if (type === 'liquid') {
       return {
         html: await renderLiquidTemplate(proof, data),
-        orientation: 'landscape', // TODO: could we set this based on the type or remove it?
         templateId: type,
+        orientation,
+        size,
       };
     }
   }
@@ -311,6 +312,7 @@ export async function renderVCHTML(data, options = {}) {
     html: templateFn(data),
     orientation,
     templateId,
+    size: 'a4',
   };
 }
 
