@@ -262,7 +262,9 @@ export async function getVCData(credential, options = {}) {
   const subjects = Array.isArray(credential.credentialSubject) ? credential.credentialSubject : [credential.credentialSubject];
 
   return {
+    credential,
     ...credential,
+    proof: null,
 
     humanizedType,
     title,
