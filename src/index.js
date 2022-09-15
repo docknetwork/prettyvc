@@ -14,6 +14,7 @@ const typeToTemplateMap = {
 
 export const cleanHTML = (html) => sanitizeHtml(html, {
   allowedTags: sanitizeHtml.defaults.allowedTags.concat(['style', 'img']),
+  allowedSchemes: ['https', 'data'],
   allowedAttributes: {
     '*': ['style'],
     a: ['href', 'name', 'target'],
