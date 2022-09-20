@@ -279,6 +279,7 @@ export async function getVCData(credential, options = {}) {
     qrImage,
     attributes,
     subjects,
+    subject: subjects[0],
 
     // Dates
     issuanceDate,
