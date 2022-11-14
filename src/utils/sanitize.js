@@ -1,8 +1,9 @@
 export default function sanitize(str) {
-  if (!str) {
+  const strValue = str.toString(); // calling tostring incase of numbers
+  if (!strValue) {
     return '';
   }
-  return str.replace(/&/g, '&amp;')
+  return strValue.replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
