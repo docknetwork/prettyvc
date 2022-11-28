@@ -1,4 +1,7 @@
 export default function sanitize(str) {
+  if (!str) {
+    return '';
+  }
   const strValue = str.toString(); // calling tostring incase of numbers
   if (!strValue) {
     return '';
