@@ -5,8 +5,6 @@ import jsSHA from 'jssha';
 
 import templates from './templates';
 
-const liquidEngine = new Liquid();
-
 const typeToTemplateMap = {
   UniversityDegreeCredential: 'diploma',
   HackathonCredential: 'hackathon',
@@ -289,20 +287,22 @@ export async function getVCData(credential, options = {}) {
   };
 }
 
-async function renderLiquidTemplate(templateContents, data) {
+async function renderLiquidTemplate(templateContents, data, liquidOptions = {}) {
+  const liquidEngine = new Liquid(liquidOptions);
   const tpl = liquidEngine.parse(templateContents);
   const result = await liquidEngine.render(tpl, data);
   return cleanHTML(result);
 }
 
 export async function renderVCHTML(data, options = {}) {
+  const { liquidOptions } = options;
   if (data.prettyVC) {
     const {
       type, proof, orientation = 'landscape', size = 'a4',
     } = data.prettyVC;
     if (type === 'liquid') {
       return {
-        html: await renderLiquidTemplate(proof, data),
+        html: await renderLiquidTemplate(proof, data, liquidOptions),
         templateId: type,
         orientation,
         size,
