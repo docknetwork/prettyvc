@@ -175,7 +175,9 @@ function extractNameFields(s) {
 
 function getSubjectName({ credentialSubject }, didMap) {
   const subjects = Array.isArray(credentialSubject) ? credentialSubject : [credentialSubject];
-  return subjects.map((s) => s && mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap).join(' & ');
+  return subjects.map((s) => s && mapDIDIfKnown(getObjectName(s, extractNameFields)), didMap)
+    .filter((s) => typeof s === 'string')
+    .join(' & ');
 }
 
 function getSubjectDocuments({ credentialSubject }) {

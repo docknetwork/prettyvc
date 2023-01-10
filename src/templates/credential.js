@@ -23,7 +23,11 @@ export default function TemplateCredential({
         <h3 class="prettyVC-diploma-subtitle">
           ${sanitize(subjectName)}
         </h3>
-      ` : ''}
+      ` : `
+        <p class="prettyVC-diploma-subtext">
+          has issued a <strong>${sanitize(title)}</strong>
+        </p>
+      `}
 
       ${attributes.length ? `
         <br />
