@@ -35,7 +35,7 @@
   "dependencies": {
     "identicon.js": "^2.3.3",
     "jssha": "^3.2.0",
-    "liquidjs": "^9.38.0",
+    "liquidjs": "^10.4.0",
     "sanitize-html": "^2.7.0"
   },
   "devDependencies": {
