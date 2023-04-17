@@ -203,7 +203,7 @@ export function guessCredentialTemplate({ type }, customTemplateMap = {}) {
   return customTemplateMap[lastType] || typeToTemplateMap[lastType] || 'credential';
 }
 
-export function objectToAttributesArray(object, result = [], parentName = '') {
+export function objectToAttributesArray(object, result = [], parentName = '', parentProperty = '') {
   const keys = Object.keys(object);
 
   for (let i = 0; i < keys.length; i++) {
@@ -211,11 +211,11 @@ export function objectToAttributesArray(object, result = [], parentName = '') {
     const value = object[key];
     if (value) {
       if (typeof value === 'object') {
-        objectToAttributesArray(value, result, `${key} `);
+        objectToAttributesArray(value, result, `${key} `, `${parentProperty ? `${parentProperty}` : ''}${key}.`);
       } else {
         result.push({
           name: humanizeCamelCase(parentName + key),
-          property: parentName + key,
+          property: parentProperty + key,
           value,
         });
       }
