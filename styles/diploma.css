@@ -61,6 +61,9 @@
   display: flex;
   margin-top: auto;
   margin-right: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .prettyVC-diploma-footersubject-wrap > strong {
@@ -101,6 +104,7 @@
 .prettyVC-diploma-qrimage {
   margin-left: auto;
   width: 8em;
+  flex-shrink: 0;
 }
 
 .prettyVC-diploma-qrimage-center {
