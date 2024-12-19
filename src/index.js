@@ -209,8 +209,8 @@ export function objectToAttributesArray(object, result = [], parentName = '', pa
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     const value = object[key];
-    if (value) {
-      if (typeof value === 'object') {
+    if (value !== undefined) {
+      if (value && typeof value === 'object') {
         objectToAttributesArray(value, result, `${key} `, `${parentProperty ? `${parentProperty}` : ''}${key}.`);
       } else {
         result.push({
