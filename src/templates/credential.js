@@ -6,7 +6,7 @@ export default function TemplateCredential({
   const attributesTableRows = attributes.map((attribute) => (`
     <tr>
       <td><strong>${sanitize(attribute.name)}</strong></td>
-      <td>${sanitize(attribute.value)}</td>
+      <td>${sanitize(attribute.value === 0 ? '0' : attribute.value)}</td>
     </tr>
   `)).join('\n');
   return `
@@ -49,7 +49,7 @@ export default function TemplateCredential({
             </div>
           ` : ''}
           <div class="prettyVC-diploma-footersubject">
-            <strong>${sanitize(title)}</strong>
+            <strong>${sanitize(title.substr(0, 42))}</strong>
             <span>Issued on: ${sanitize(date)}</span>
             ${expiryDate ? `
               <span>Expire at: ${sanitize(expiryDate)}</span>
